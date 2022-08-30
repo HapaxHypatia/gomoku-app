@@ -1,0 +1,12 @@
+import { createContext } from 'react'
+import { User } from '../types'
+
+type UserContextType = {
+  user?: User
+  id?: number
+  login: (username: string) => void
+  logout: () => void
+}
+
+const UserContext = createContext<UserContextType>({} as UserContextType)
+export default UserContext
