@@ -1,22 +1,12 @@
 import express, { Express, Request, Response } from 'express';
-import dotenv from 'dotenv';
-
-dotenv.config();
+import gameHandler from "./game/game.handler"
+import authHandler from "./auth/auth.handler"
 
 const app: Express = express();
-const port = process.env.PORT;
-
+app.set('port', process.env.PORT || 3000);
 app.use(express.json())
-
-app.use((req,res,next) =>{
-  console.log('Time', Date.now())
-  next()
-})
-
-app.use('/user/:id', (req, res, next) => {
-  console.log('Request Type: ', req.method)
-  next()
-})
+app.use('/api/games', gameHandler)
+app.use('/api/auth', authHandler)
 
 app.get('/user/:id', (req, res, next) => {
   res.send('USER')
@@ -26,6 +16,11 @@ app.get('/', (req: Request, res: Response)=> {
   res.send('Hello world')
 })
 
-app.listen(port, () => {
-  console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
+app.get('/games', (req: Request, res: Response)=> {
+  res.send('games')
+})
+
+app.listen(app.get('port'), () => {
+  console.log(`⚡️[server]: Server is running at http://localhost:${app.get('port')}`);
 });
+
