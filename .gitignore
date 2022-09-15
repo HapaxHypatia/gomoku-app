@@ -2,12 +2,12 @@
 
 # dependencies
 gomoku-server/node_modules
-react/node_modules
+gomoku-react/node_modules
 /.pnp
 .pnp.js
 
 gomoku-server/.idea
-react/.idea
+gomoku-react/.idea
 .idea
 
 # testing

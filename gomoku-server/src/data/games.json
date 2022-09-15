@@ -1,5 +1,31 @@
-{
-    "gameID": "testID",
+[
+{  "gameID": "testID",
+
+    "date": "19:59:07/09/2022",
+    "boardSize": 10,
+    "length": 5,
+    "userID": 10,
+    "moves": [
+      {
+        "id": "0011",
+        "player": "black"
+      },
+      {
+        "id": "0021",
+        "player": "white"
+      },
+      {
+        "id": "0013",
+        "player": "black"
+      },
+      {
+        "id": "0014",
+        "player": "white"
+      }],
+    "winner": "white"
+},
+{  "gameID": "testID",
+
     "date": "19:59:07/09/2022",
     "boardSize": 10,
     "length": 5,
@@ -23,3 +49,5 @@
       }],
     "winner": "white"
 }
+
+]
