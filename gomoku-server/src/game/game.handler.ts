@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express'
 
-import validateSchema from '../auth/validateSchema'
+import validateSchema from '../util/validateSchema'
 
 import { getGameByIdSchema } from './game.schema'
 

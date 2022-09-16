@@ -25,7 +25,7 @@ export default function Game() {
                 date: date,
                 boardSize: Number(boardSize),
                 length: Number(length),
-                userID: user!.id,
+                user: user,
                 currentPlayer: "black",
                 winner: undefined
             }

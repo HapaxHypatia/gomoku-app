@@ -1,8 +1,8 @@
 # Gomoku App
 
 install dependencies: yarn
+start the server: yarn run dev
 start the app: yarn start
-start the server: yarn run 
 go to localhost:3000
 
 

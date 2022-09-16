@@ -10,17 +10,15 @@ export default function Login() {
   const navigate = useNavigate()
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [isCredentialInvalid, setIsCredentialInvalid] = useState(false)
+  const [errorMessage, setErrorMessage] = useState('')
 
-  const handleLogin = () => {
-    const user = users.find(
-      (u) => u.username === username && u.password === password
-    )
-    if (!user) {
-      setIsCredentialInvalid(true)
-    } else {
-      login(username)
+  const handleLogin = async () => {
+    setErrorMessage('')
+    const result = await login(username, password)
+    if (result === true) {
       navigate('/')
+    } else {
+      setErrorMessage(result)
     }
   }
 
@@ -32,22 +30,19 @@ export default function Login() {
 
   return (
     <form
-      className="container"
       onSubmit={(e) => {
         e.preventDefault()
         handleLogin()
       }}
     >
-      {isCredentialInvalid && (
-        <Message variant="error" message="Invalid username or password" />
-      )}
+      {errorMessage && <Message variant="error" message={errorMessage} />}
       <input
         name="username"
         placeholder="Username"
         value={username}
         onChange={(e) => {
           setUsername(e.target.value)
-          setIsCredentialInvalid(false)
+          setErrorMessage('')
         }}
       />
       <input
@@ -57,7 +52,7 @@ export default function Login() {
         value={password}
         onChange={(e) => {
           setPassword(e.target.value)
-          setIsCredentialInvalid(false)
+          setErrorMessage('')
         }}
       />
       <button type="submit" disabled={!username || !password}>

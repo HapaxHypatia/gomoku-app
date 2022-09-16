@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express'
 import bcrypt from 'bcryptjs'
-import validateSchema from './validateSchema'
+import validateSchema from '../util/validateSchema'
 import { createUser, getUserByUsername } from './auth.service'
 import {
   LoginInput,

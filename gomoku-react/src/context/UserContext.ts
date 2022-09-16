@@ -3,9 +3,9 @@ import { User } from '../types'
 
 type UserContextType = {
   user?: User
-  id?: number
-  login: (username: string) => void
+  login: (username: string, password: string) => Promise<true | string>
   logout: () => void
+  register: (username: string, password: string) => Promise<true | string>
 }
 
 const UserContext = createContext<UserContextType>({} as UserContextType)

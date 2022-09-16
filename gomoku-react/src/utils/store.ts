@@ -5,7 +5,6 @@ import {GameType} from "../types";
 const initialGameState: GameType = {
             gameID: "",
             date: "",
-            userID: 0,
             boardSize: 0,
             length: 0,
             moves: [],

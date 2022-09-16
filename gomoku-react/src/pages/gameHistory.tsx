@@ -10,8 +10,8 @@ export default function GameHistory() {
     const { user } = useContext(UserContext)
     const [games, setGames] = useState('')
     const fetchGames = async () => {
-        const fetchedGames = await get<GameType[]>('/api/games')
-        setGames(fetchedGames)
+        // const fetchedGames = await get<GameType[]>('/api/games')
+        // setGames(fetchedGames)
     }
     useEffect(() => {
         fetchGames()
@@ -30,7 +30,7 @@ export default function GameHistory() {
     return (
         <>
         <ol id={"gamelog"}>
-        {games.map((g:{}) => <HistoryItem game={g}/>)}
+        {/*{games.map((g:{}) => <HistoryItem game={g}/>)}*/}
         </ol>
         </>
 

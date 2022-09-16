@@ -1,7 +1,9 @@
-import {GameType} from "./gameType";
-
 export type User = {
+  _id: string
+  token: string
+}
+
+export type Credential = {
   username: string
-  id?: number
-  games?: GameType[]
+  password: string
 }

@@ -1,5 +1,5 @@
 import mongoose, { DocumentDefinition } from 'mongoose'
-import UserModel, { UserDocument } from 'user.model'
+import UserModel, { UserDocument } from './user.model'
 
 export async function getUserByUsername(username: string) {
   return UserModel.findOne({ username }).lean()

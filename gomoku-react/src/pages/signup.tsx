@@ -1,43 +1,45 @@
-import { useState } from 'react'
-import { Message } from '../components'
-import users from '../data/users.json'
+import { SetStateAction, useContext, useState} from 'react'
+import {useNavigate} from 'react-router-dom'
+import { Message} from '../components'
+import {UserContext} from '../context'
+
 
 export default function SignUp() {
+  const {register} = useContext(UserContext)
+  const navigate = useNavigate()
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
 
-  const handleSignUp = () => {
-    if (users.find((u) => u.username === username)) {
-      setErrorMessage(`Username ${username} has been taken`)
-      return
-    }
-
+  const handleSignUp = async () => {
+    setErrorMessage('')
     if (password !== confirmPassword) {
       setErrorMessage('Passwords do not match')
       return
     }
-    console.log({
-      username,
-      password,
-    })
+    const result = await register(username, password)
+    if (result === true) {
+      navigate('/')
+    } else {
+      setErrorMessage(result)
+    }
   }
 
   return (
-    <form
-      className={"container"}
-      onSubmit={(e) => {
-        e.preventDefault()
-        handleSignUp()
-      }}
-    >
-      {errorMessage && <Message variant="error" message={errorMessage} />}
-      <input
-        name="username"
-        placeholder="Username"
-        value={username}
-        onChange={(e) => {
+      <form
+          onSubmit={(e) => {
+            e.preventDefault()
+            handleSignUp()
+          }}
+      >
+        {errorMessage && <Message variant="error" message={errorMessage}/>}
+        <input
+            name="username"
+            placeholder="Username"
+            value={username}
+            onChange={(e: { target: { value: SetStateAction<string> } }) => {
+          setErrorMessage('')
           setUsername(e.target.value)
         }}
       />
@@ -47,6 +49,7 @@ export default function SignUp() {
         placeholder="Password"
         value={password}
         onChange={(e) => {
+          setErrorMessage('')
           setPassword(e.target.value)
         }}
       />
@@ -57,6 +60,7 @@ export default function SignUp() {
         placeholder="Confirm password"
         value={confirmPassword}
         onChange={(e) => {
+          setErrorMessage('')
           setConfirmPassword(e.target.value)
         }}
       />
