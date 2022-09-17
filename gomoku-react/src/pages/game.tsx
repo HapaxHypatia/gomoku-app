@@ -7,21 +7,19 @@ import {useAppDispatch, useAppSelector} from "../hooks/hooks";
 export default function Game() {
     const gameState = useAppSelector(state => state)
     const dispatch = useAppDispatch()
-
     const {boardSize, length} = useParams()
     const now = new Date()
     const date = now.toUTCString()
     const { user } = useContext(UserContext)
-    const ID = now.toISOString()
 
     const navigate = useNavigate()
 
 
 
     useEffect(() => {
+        //create db entry and return gameID
         dispatch({type: 'setState',
             payload: {
-                gameID: ID,
                 date: date,
                 boardSize: Number(boardSize),
                 length: Number(length),

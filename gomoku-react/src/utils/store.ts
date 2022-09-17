@@ -1,30 +1,25 @@
 import { configureStore } from '@reduxjs/toolkit'
-import {GameType} from "../types";
+import {GameType, User} from "../types";
+import userContext from "../context/UserContext";
+import {useContext} from "react";
+import {UserContext} from "../context";
+import {GameState} from "../types/gameState";
 
+const { user } = useContext(UserContext)
 
-const initialGameState: GameType = {
-            gameID: "",
-            date: "",
-            boardSize: 0,
-            length: 0,
-            moves: [],
-            squares: [],
-            currentPlayer: "black",
-            winner: undefined
+const initialGameState: GameState = {
+    currentPlayer: "black"
+    squares: []
+    gameID: undefined
     }
 
-function gameReducer(state: GameType = {
-    boardSize: 15,
-    length: 5,
-    moves: [],
-    squares: [],
-    currentPlayer: "black",
-    winner: undefined
-}, action:any){
+function gameReducer(state: GameState, action:any){
 
     switch (action.type){
-        case "setState":
-            return {...state, ...action.payload}
+        case "setID":{...state, state.gameID: action.payload}
+            return
+        case "changePlayer":
+            return {...state, state.currentPlayer: action.payload}
         case "updateSquare":
             const square = state.squares.find((sq) => sq.id===action.payload.id)
             if (!square){

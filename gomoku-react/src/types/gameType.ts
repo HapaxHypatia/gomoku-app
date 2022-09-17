@@ -1,13 +1,11 @@
 import {User} from "./user";
 
 export type GameType = {
-    gameID?: string,
-    date?: string,
+    _id: string
+    date: string,
     boardSize: number,
     length: number,
-    user?: User,
+    user: User,
     moves: {id:string, player:string}[],
-    squares: {id:string, status:string}[],
-    currentPlayer: "black" | "white",
-    winner?: "black" | "white"|"draw" | undefined
+    winner: "black" | "white" | "draw" | undefined
 }

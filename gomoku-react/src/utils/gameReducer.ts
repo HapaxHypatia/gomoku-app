@@ -1,2 +1,0 @@
-import {GameType} from "../types";
-

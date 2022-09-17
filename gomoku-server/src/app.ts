@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import connectDB from "./util/connectDB";
 import gameHandler from "./game/game.handler"
 import authHandler from "./auth/auth.handler"
+import historyHandler from "./history/history.handler";
 
 dotenv.config();
 connectDB();
@@ -11,7 +12,8 @@ connectDB();
 const app: Express = express();
 app.set('port', process.env.PORT || 3000);
 app.use(express.json())
-app.use('/api/games', gameHandler)
+app.use('/api/history', historyHandler)
+app.use('/api/game', gameHandler)
 app.use('/api/auth', authHandler)
 
 app.get('/user/:id', (req, res, next) => {

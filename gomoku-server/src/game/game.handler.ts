@@ -1,77 +1,50 @@
-import express, { Request, Response } from 'express'
-
-import validateSchema from '../util/validateSchema'
-
-import { getGameByIdSchema } from './game.schema'
-
-import GameModel from './game.model'
+import {checkDraw, createGame, deleteGame} from "./gameFunctions";
+import {checkLine} from "./gameFunctions";
+import express, {Request, Response} from "express";
 import {deserializeUser} from "../auth/deserializeUser";
-
-async function getAllGames() {
-  return await GameModel.find().lean()
-}
-
-async function getGameById(id: string) {
-  return await GameModel.findById(id).lean()
-}
-
-async function getGamesByUserId(userId: string) {
-  return await GameModel.find({ userId }).lean();
-}
+import validateSchema from "../util/validateSchema";
+import {createGameSchema, deleteGameSchema, updateGameSchema} from "./game.schema";
 
 const gameHandler = express.Router()
 gameHandler.use(deserializeUser)
 
-// Get ALL games
-gameHandler.get('/', async (req: Request, res: Response) => {
-  try {
-    const result = await getAllGames()
-    return res.status(200).send(
-      result.map((g) => ({
-        _id: g._id,
-        date:g.date,
-        winner: g.winner
-      //add other properties here
-      }))
-    )
-  } catch (err) {
-    return res.status(500).send(err)
-  }
+gameHandler.post('/',
+  validateSchema(createGameSchema),
+  async (req: Request, res: Response) => {
+  //create game entry
+  const userId = req.userId
+  const gameDetails = req.body
+  const newGame = await createGame({ ...gameDetails, userId })
+  return res.status(200).send(newGame)
 })
 
-// GET game by ID
-gameHandler.get(
-  '/:id',
-  validateSchema(getGameByIdSchema),
+gameHandler.put('/:id',
+  validateSchema(updateGameSchema),
   async (req: Request, res: Response) => {
-    const gameId = req.params.id
+  // TODO update game entry
+})
 
-    const game = await getGameById(gameId)
-    console.log(game)
-    if (!game) return res.sendStatus(404)
-    return res.status(200).json({ ...game })
+gameHandler.delete(
+  '/:id',
+  validateSchema(deleteGameSchema),
+  async (req: Request, res: Response) => {
+    //delete game entry
+    const GameId = req.params.id
+    const userId = req.userId
+    await deleteGame(GameId, userId)
+    return res.sendStatus(200)
   }
 )
 
-//GET games by userId
-gameHandler.get(
-    '/:userId',
-    async (req: Request, res: Response)=>{
-    const userID = req.userId
-    const gameHistory = await getGamesByUserId(userID)
-    return res.status(200).send(
-        gameHistory.map((g) => ({
-        _id: g._id,
-        date:g.date,
-        winner: g.winner}
-        )
-        )
-    )
-    }
-)
-
-
-
-//how to access current userID here?
+// gameHandler.post(
+//   '/check',
+//   validateSchema(),
+//   async (req:Request, res:Response)=> {
+//
+//   //  TODO check for win
+//take in gameState and squareID
+//return win/draw/continue
+//   }
+// )
 
 export default gameHandler

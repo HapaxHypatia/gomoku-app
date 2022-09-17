@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {BoardRow} from "./index";
-import {useAppDispatch, useAppSelector} from "../hooks/hooks";
+import { useAppSelector} from "../hooks/hooks";
 
 
 function Board() {

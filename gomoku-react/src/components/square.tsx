@@ -5,6 +5,7 @@ import white from "../img/white.png"
 import {useAppDispatch, useAppSelector} from "../hooks/hooks";
 import {useNavigate} from "react-router-dom";
 import {UserContext} from "../context";
+import {post} from "../utils/http";
 
 type SquareProps = {
     id: string
@@ -15,8 +16,9 @@ type SquareProps = {
 
 export default function Square(props: SquareProps) {
     const gameState = useAppSelector(state => state)
+    //length is now in db not state
     const lineLength = useAppSelector((state) => state.length)
-    const player =  useAppSelector((state)=> state.currentPlayer)
+
     const user = useContext(UserContext)
     const dispatch = useAppDispatch()
     const {id, x, y} = props
@@ -45,98 +47,73 @@ export default function Square(props: SquareProps) {
         }
     }, [status])
 
-    function saveGame(){
-    if (user){
-        if (gameState.gameID){
-            localStorage.setItem(gameState.gameID!, JSON.stringify(gameState))
-            console.log("Game Saved in square")
-        }
-    }
-}
-
-
-    function checkLine(x:number, y:number, direction:string) {
-        let line = 0;
-        for (let i = 1; i < lineLength; i++) {
-            const directions: { [key: string]: string }= {
-                N: String(x).padStart(2,'0') +String(y-i).padStart(2,'0'),
-                S: String(x).padStart(2,'0') +String(y+i).padStart(2,'0'),
-                E: String(x+i).padStart(2,'0') +String(y).padStart(2,'0'),
-                W: String(x-i).padStart(2,'0') +String(y).padStart(2,'0'),
-                NE: String(x+i).padStart(2,'0') +String(y-i).padStart(2,'0'),
-                SW: String(x-i).padStart(2,'0') +String(y+i).padStart(2,'0'),
-                NW: String(x-i).padStart(2,'0') +String(y-i).padStart(2,'0'),
-                SE: String(x+i).padStart(2,'0') +String(y+i).padStart(2,'0')
-            }
-            //find neighbouring cell in squares array by id
-            let cell = gameState.squares.find((sq) => sq.id===directions[direction])
-
-            if (!cell) {
-                break;
-            }
-            if (cell.status===player) {
-                line++;
-            }else{
-                break;
-            }
-        }
-        return line;
-    }
-    function checkWin(x:number, y:number) {
-        let NS = checkLine(x, y, "N") + checkLine(x, y, "S")===lineLength-1? 1:0;
-        let EW = checkLine(x, y, "E") +checkLine(x, y, "W")===lineLength-1? 1:0;
-        let NESW = checkLine(x, y, "NE") +checkLine(x, y, "SW")===lineLength-1? 1:0;
-        let NWSE = checkLine(x, y, "NW") + checkLine(x, y, "SE") ===lineLength-1? 1:0;
-        return NS + EW + NESW + NWSE===1;
-    }
-
-    function checkDraw(){
-        const freeSpace = gameState.squares.some((sq) => sq.status==="empty")
-        console.log(freeSpace)
-        if (!freeSpace){
-            console.log("draw")
-            return true
-        }
-    }
-
     const placeStone = ()=>{
-    //    onclick of square img
+    // Change square status to current player
+        const player =  gameState.currentPlayer
         if (status === "empty"){
-            //place stone of current player colour
-            let player = String(gameState.currentPlayer)
+            //might not have updated state? Watch for this
             setStatus(player)
-            //add to moves array
-            dispatch({type:'setState', payload:{
-                moves: [...gameState.moves,
-                    {id:id, player:player}]
-                }})
 
-            if (checkDraw()){
-                //TODO: not working
-                dispatch({type:'setState',
-                    payload:{winner: "draw"}})
-                saveGame()
-                navigate('/draw')}
+        //    DB calls
+        //    TODO update moves array
+        //    requires squareID, player
+        //    TODO check for win/draw
+        post('/api/game/check', {})
 
-            // check for win
-            if (checkWin(x,y)){
-                console.log("win=true")
-                //    update winner in gameState
-                dispatch({type:'setState',
-                    payload:{winner: player}})
-                saveGame()
-                //    navigate to win page
-                navigate('/win', {state: {winner: player}})
-            }
+            console.log("win=true")
+            //    TODO update winner in db
+            //    navigate to win page
+            navigate('/win', {state: {winner: player}})
+        }
 
-            //switch current player in gameState
-            player = gameState.currentPlayer==="black"? "white": "black"
-            dispatch({type: 'setState',
-            payload: {
-                currentPlayer: player
-            }
-            })
-    }}
+
+        //switch current player in gameState
+        let newPlayer = player==="black"? "white": "black"
+        dispatch({type: 'changePlayer',payload: {newPlayer}})
+    }
+
+
+//     const placeStone = ()=>{
+//     //    onclick of square img
+//         if (status === "empty"){
+//             //place stone of current player colour
+//             let player = String(gameState.currentPlayer)
+//             setStatus(player)
+//             if (checkDraw()){
+//                 //TODO: checkDraw serverside
+//                 dispatch({type:'setState',
+//                     payload:{winner: "draw"}})
+//                 saveGame()
+//                 navigate('/draw')}
+//
+//             // TODO check for win serverside
+//
+//             function checkLine (x, y, "N", lineLength, player){
+//                 //send object with x, y, direction, lineLength, player as params
+//             }
+//
+//             let NS = checkLine(x, y, "N", lineLength) + checkLine(x, y, "S")===lineLength-1? 1:0;
+//             let EW = checkLine(x, y, "E", lineLength) +checkLine(x, y, "W")===lineLength-1? 1:0;
+//             let NESW = checkLine(x, y, "NE", lineLength) +checkLine(x, y, "SW")===lineLength-1? 1:0;
+//             let NWSE = checkLine(x, y, "NW", lineLength) + checkLine(x, y, "SE") ===lineLength-1? 1:0;
+//             return NS + EW + NESW + NWSE===1;
+// }
+//
+//             if (checkWin(x,y)){
+//                 console.log("win=true")
+//                 //    TODO update winner in db
+//                 dispatch({type:'setState',
+//                     payload:{winner: player}})
+//                 saveGame()
+//                 //    navigate to win page
+//                 navigate('/win', {state: {winner: player}})
+//             }
+//
+//             //switch current player in gameState
+//             player = gameState.currentPlayer==="black"? "white": "black"
+//             dispatch({type: 'changePlayer',payload: {player}})
+//     }
+//
     return (
         <td id={id} height={"25px"} width={"25px"}>
         <img alt='' src={src} onClick={placeStone} className={status} width='25px' height='25px'/>
