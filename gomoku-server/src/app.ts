@@ -16,16 +16,8 @@ app.use('/api/history', historyHandler)
 app.use('/api/game', gameHandler)
 app.use('/api/auth', authHandler)
 
-app.get('/user/:id', (req, res, next) => {
-  res.send('USER')
-})
-
 app.get('/', (req: Request, res: Response)=> {
   res.send('Hello world')
-})
-
-app.get('/games', (req: Request, res: Response)=> {
-  res.send('games')
 })
 
 mongoose.connection.once('connected', ()=> {

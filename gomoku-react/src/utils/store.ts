@@ -5,21 +5,18 @@ import {useContext} from "react";
 import {UserContext} from "../context";
 import {GameState} from "../types/gameState";
 
-const { user } = useContext(UserContext)
-
 const initialGameState: GameState = {
-    currentPlayer: "black"
+    currentPlayer: "black",
     squares: []
-    gameID: undefined
     }
 
 function gameReducer(state: GameState, action:any){
 
     switch (action.type){
-        case "setID":{...state, state.gameID: action.payload}
-            return
-        case "changePlayer":
-            return {...state, state.currentPlayer: action.payload}
+        // case "setID":{...state, state.gameID: [...action.payload]}
+        //     return
+        // case "changePlayer":
+        //     return {...state, action.payload}
         case "updateSquare":
             const square = state.squares.find((sq) => sq.id===action.payload.id)
             if (!square){

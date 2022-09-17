@@ -3,6 +3,7 @@ import {Navigate, useNavigate, useParams} from "react-router-dom";
 import React, {useContext, useEffect, useState} from "react";
 import {UserContext} from "../context";
 import {useAppDispatch, useAppSelector} from "../hooks/hooks";
+import {post} from "../utils/http";
 
 export default function Game() {
     const gameState = useAppSelector(state => state)
@@ -18,50 +19,36 @@ export default function Game() {
 
     useEffect(() => {
         //create db entry and return gameID
-        dispatch({type: 'setState',
-            payload: {
-                date: date,
-                boardSize: Number(boardSize),
-                length: Number(length),
-                user: user,
-                currentPlayer: "black",
-                winner: undefined
-            }
+        post('/api/game', {
+            boardSize: Number(boardSize),
+            length: Number(length),
+            gameUser: user,
+            moves: [],
+            winner: "none"
         })
-        }  , [boardSize, length]
+            }, [boardSize, length]
     )
 
-    function saveGame(){
-        if (user){
-        if (gameState.gameID){
-                localStorage.setItem(gameState.gameID!, JSON.stringify(gameState))
-                console.log("Game Saved in game")
-            }
-        }
-    }
-
-    useEffect(()=> {
-        saveGame()}, [gameState.gameID, gameState.winner, gameState.moves, gameState.currentPlayer, gameState.squares])
-
     function reset() {
-        // clear moves array & switch player
-        dispatch({type: 'setState',
-                payload:{
-                        moves: [],
-                        currentPlayer: "black"
-                    }
-                }
-        )
+        // // clear moves array & switch player
+        // dispatch({type: 'setState',
+        //         payload:{
+        //                 moves: [],
+        //                 currentPlayer: "black"
+        //             }
+        //         }
+        // )
     }
 
     function leave(){
-        if (gameState.winner){
-            saveGame()
-            navigate('/gameHistory')
-        }
-        else{
-            localStorage.removeItem(gameState.gameID!)
-            navigate('/')}
+        // if (gameState.winner){
+        //
+        //     saveGame()
+        //     navigate('/gameHistory')
+        // }
+        // else{
+        //     localStorage.removeItem(gameState.gameID!)
+        //     navigate('/')}
     }
     if (!user) return <Navigate to="/login" replace={true}/>
 

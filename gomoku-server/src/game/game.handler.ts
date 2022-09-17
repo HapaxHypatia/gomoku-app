@@ -4,9 +4,9 @@ import express, {Request, Response} from "express";
 import {deserializeUser} from "../auth/deserializeUser";
 import validateSchema from "../util/validateSchema";
 import {createGameSchema, deleteGameSchema, updateGameSchema} from "./game.schema";
+import GameModel from "./game.model";
 
 const gameHandler = express.Router()
-gameHandler.use(deserializeUser)
 
 gameHandler.post('/',
   validateSchema(createGameSchema),
@@ -35,6 +35,14 @@ gameHandler.delete(
     return res.sendStatus(200)
   }
 )
+
+gameHandler.get('/game/:id',
+    async (req: Request, res: Response) => {
+    const GameId = req.params.id
+    const game = await GameModel.findById(GameId).lean()
+    return res.status(200).send(game)
+    }
+    )
 
 // gameHandler.post(
 //   '/check',

@@ -17,7 +17,7 @@ type SquareProps = {
 export default function Square(props: SquareProps) {
     const gameState = useAppSelector(state => state)
     //length is now in db not state
-    const lineLength = useAppSelector((state) => state.length)
+    // const lineLength = useAppSelector((state) => state.length)
 
     const user = useContext(UserContext)
     const dispatch = useAppDispatch()

@@ -1,5 +1,5 @@
 export type GameState = {
-    gameID: string
+    gameID?: string
     currentPlayer: "black" | "white"
     squares: {id:string, status:string}[]
 }

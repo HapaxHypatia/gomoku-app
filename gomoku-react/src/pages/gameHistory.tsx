@@ -11,7 +11,7 @@ export default function GameHistory() {
     const [games, setGames] = useState('')
     const fetchGames = async () => {
         const fetchedGames = await get<GameType[]>('/api/games')
-        setGames(fetchedGames)
+        // setGames(fetchedGames)
     }
     useEffect(() => {
         fetchGames()
