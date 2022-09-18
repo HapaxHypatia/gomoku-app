@@ -1,10 +1,11 @@
-import {checkDraw, createGame, deleteGame} from "./gameFunctions";
+import {checkDraw, createGame, deleteGame, getGameById} from "./gameFunctions";
 import {checkLine} from "./gameFunctions";
 import express, {Request, Response} from "express";
 import {deserializeUser} from "../auth/deserializeUser";
 import validateSchema from "../util/validateSchema";
 import {createGameSchema, deleteGameSchema, updateGameSchema} from "./game.schema";
 import GameModel from "./game.model";
+import mongoose from "mongoose";
 
 const gameHandler = express.Router()
 
@@ -36,13 +37,18 @@ gameHandler.delete(
   }
 )
 
-gameHandler.get('/game/:id',
+gameHandler.get('/:id',
     async (req: Request, res: Response) => {
     const GameId = req.params.id
     const game = await GameModel.findById(GameId).lean()
+        console.log(game)
     return res.status(200).send(game)
     }
     )
+
+gameHandler.get('/', (req: Request, res: Response)=> {
+  res.send('game')
+})
 
 // gameHandler.post(
 //   '/check',

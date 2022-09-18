@@ -5,8 +5,11 @@ import {UserContext} from "../context";
 import {useAppDispatch, useAppSelector} from "../hooks/hooks";
 import {post} from "../utils/http";
 
+
+
 export default function Game() {
     const gameState = useAppSelector(state => state)
+    const [game, setGame] = useState('')
     const dispatch = useAppDispatch()
     const {boardSize, length} = useParams()
     const now = new Date()
@@ -14,20 +17,22 @@ export default function Game() {
     const { user } = useContext(UserContext)
 
     const navigate = useNavigate()
-
-
-
-    useEffect(() => {
-        //create db entry and return gameID
-        post('/api/game', {
+    const createGame = async ()=>{
+            //create db entry and return gameID
+        const newgame = await post('/api/game', {
             boardSize: Number(boardSize),
             length: Number(length),
             gameUser: user,
             moves: [],
             winner: "none"
         })
-            }, [boardSize, length]
-    )
+        console.log(newgame)
+        dispatch({type:"setID", payload:newgame._id})
+    }
+
+    useEffect(() => {
+        createGame()
+        }, [boardSize, length])
 
     function reset() {
         // // clear moves array & switch player

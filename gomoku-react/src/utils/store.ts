@@ -7,16 +7,20 @@ import {GameState} from "../types/gameState";
 
 const initialGameState: GameState = {
     currentPlayer: "black",
-    squares: []
+    squares: [],
+    gameID: '',
+    boardSize: 15
     }
 
 function gameReducer(state: GameState, action:any){
 
     switch (action.type){
-        // case "setID":{...state, state.gameID: [...action.payload]}
-        //     return
-        // case "changePlayer":
-        //     return {...state, action.payload}
+        case "setID":
+            return {...state, gameID: [action.payload]}
+        case "setBoard":
+            return {...state, boardSize: [action.payload]}
+        case "changePlayer":
+            return {...state, currentPlayer: [action.payload]}
         case "updateSquare":
             const square = state.squares.find((sq) => sq.id===action.payload.id)
             if (!square){
@@ -35,7 +39,6 @@ function gameReducer(state: GameState, action:any){
 }
 
 export const store =configureStore({
-  //...
     reducer:gameReducer,
     preloadedState: initialGameState
 })
