@@ -11,7 +11,7 @@ export default function GameLog() {
   const [Game, setGame] = useState<GameType>()
 
   const fetchGameDetails = async (id: string) => {
-    const fetchedGame = await get<GameType>(`/api/Games/${id}`)
+    const fetchedGame = await get<GameType>(`/api/history/${GameId}`)
     setGame(fetchedGame)
   }
 
@@ -19,7 +19,9 @@ export default function GameLog() {
     fetchGameDetails(GameId)
   }, [GameId])
 
-  if (!Game) return null
+  if (!Game) return (
+      <div>No game found</div>
+  )
         
         
     let moves = Game.moves

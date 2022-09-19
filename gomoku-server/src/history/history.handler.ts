@@ -47,4 +47,18 @@ historyHandler.get(
     }
 )
 
+historyHandler.get('/:gameId',
+    validateSchema(getGameByIdSchema),
+    async (req: Request, res: Response) => {
+    const GameId = req.params.id
+    const game = await getGameById(GameId)
+    return res.status(200).send(game)
+    }
+    )
+
+historyHandler.get('/', (req: Request, res: Response)=> {
+  res.send('History')
+})
+
+
 export default historyHandler

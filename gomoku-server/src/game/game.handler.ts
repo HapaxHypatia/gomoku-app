@@ -37,18 +37,7 @@ gameHandler.delete(
   }
 )
 
-gameHandler.get('/:id',
-    async (req: Request, res: Response) => {
-    const GameId = req.params.id
-    const game = await GameModel.findById(GameId).lean()
-        console.log(game)
-    return res.status(200).send(game)
-    }
-    )
 
-gameHandler.get('/', (req: Request, res: Response)=> {
-  res.send('game')
-})
 
 // gameHandler.post(
 //   '/check',
