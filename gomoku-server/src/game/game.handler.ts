@@ -92,12 +92,13 @@ gameHandler.delete(
 
 //Delete games by userId
 gameHandler.delete(
-  '/:userId',
+  '/user/:userId',
   // validateSchema(deleteGameSchema),
   async (req: Request, res: Response) => {
     //delete game entry
     const userId = req.userId
-    await GameModel.deleteMany({ "gameUser": userId })
+    const objID = new mongoose.Types.ObjectId(userId)
+    await GameModel.deleteMany({ 'gameUser': objID })
     return res.sendStatus(200)
   }
 )

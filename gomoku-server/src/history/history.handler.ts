@@ -2,17 +2,22 @@ import express, { Request, Response } from 'express'
 import validateSchema from '../util/validateSchema'
 import GameModel from '../game/game.model'
 import {deserializeUser} from "../auth/deserializeUser";
-import { string, object, TypeOf } from 'zod'
+import mongoose from "mongoose";
 
 const historyHandler = express.Router()
 
+ async function getGameById(id: string) {
+  return await GameModel.findById(id).lean()
+}
+
+
 //GET games by userId
 historyHandler.get(
-    '/:userId',
+    '/games/:userId',
     async (req: Request, res: Response)=>{
-    const userId = req.userId
-    const gameHistory = await GameModel.find({ "gameUser": userId }).lean();
-        console.log(gameHistory)
+    const userId = req.params.userId
+    const objID = new mongoose.Types.ObjectId(userId)
+    const gameHistory = await GameModel.find({ "gameUser": objID });
     return res.status(200).send(
         gameHistory.map((g) => ({
         _id: g._id,
@@ -32,9 +37,9 @@ historyHandler.get(
 //get single game by id
 historyHandler.get('/:gameId',
     async (req: Request, res: Response) => {
-    const GameId = req.params.id
-    console.log("GAME ID: "+GameId)
-    const game = await GameModel.findOne({_id:GameId}).lean()
+    const GameId = req.params.gameId
+    const objID = new mongoose.Types.ObjectId(GameId)
+    const game = await getGameById(GameId)
     return res.status(200).send(game)
     }
     )

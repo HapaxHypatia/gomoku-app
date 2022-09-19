@@ -6,7 +6,7 @@ import white from "../img/white.png"
 type ReplayProps = {
     id:string
     boardSize: number
-    moves: {id:string, player:string}[]
+    moves: {square:string, player:string}[]
 }
 
 export default function Replay(props:ReplayProps) {
@@ -26,7 +26,7 @@ export default function Replay(props:ReplayProps) {
     function next(){
         //get square by ID
         const player = moves[count].player
-        const squareID = moves[count].id
+        const squareID = moves[count].square
         let img = document.getElementById("img"+squareID)
         let src
         if (player=="black"){

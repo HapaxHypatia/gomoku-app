@@ -1,9 +1,7 @@
-import mongoose, { Document } from "mongoose"
+import mongoose, {Document, Schema} from "mongoose"
 import {UserDocument} from "../auth/user.model";
 
 export interface GameDocument extends Document {
-    gameID: string,
-    createdAt?: Date;
     boardSize: number,
     length: number,
     gameUser: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
