@@ -17,8 +17,8 @@ export default function Game() {
     const { user } = useContext(UserContext)
 
     const navigate = useNavigate()
-    const createGame = async ()=>{
-            //create db entry and return gameID
+    const createGame = async ()=> {
+        //create db entry and return gameID
         const newgame: any = await post('/api/game', {
             boardSize: Number(boardSize),
             length: Number(length),
@@ -26,13 +26,13 @@ export default function Game() {
             moves: [],
             winner: "none"
         })
-        console.log(newgame)
-        dispatch({type:"setID", payload:newgame._id})
+        dispatch({type: "setID", payload: newgame._id})
+        dispatch({type: "setBoard", payload: {boardSize: boardSize, length: length}})
     }
 
     useEffect(() => {
         createGame()
-        }, [boardSize, length])
+        }, [boardSize])
 
     function reset() {
         // // clear moves array & switch player

@@ -19,7 +19,7 @@ const getGameByIdSchema = object({
 type getGameByIdInput = TypeOf<typeof getGameByIdSchema>
 
 async function getGameById(id: string) {
-  return await GameModel.findById(id).lean()
+  return GameModel.findById(id).lean();
 }
 
 const historyHandler = express.Router()

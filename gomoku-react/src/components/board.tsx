@@ -1,12 +1,9 @@
 import React, {useState} from "react";
 import {BoardRow} from "./index";
 import { useAppSelector} from "../hooks/hooks";
-import {get} from "../utils/http";
-
 
 function Board() {
-    const boardSize = useAppSelector((state) => state.boardSize)
-    const [squares, setSquares] = useState<{string:string}[]>([])
+    const boardSize = Number(useAppSelector((state) => state.boardConfig.boardSize))
     const rows=Array.from(Array(boardSize).keys())
 
     return (

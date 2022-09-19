@@ -9,7 +9,8 @@ const initialGameState: GameState = {
     currentPlayer: "black",
     squares: [],
     gameID: '',
-    boardSize: 15
+    boardConfig: {boardSize:15, length:5}
+
     }
 
 function gameReducer(state: GameState, action:any){
@@ -18,7 +19,7 @@ function gameReducer(state: GameState, action:any){
         case "setID":
             return {...state, gameID: [action.payload]}
         case "setBoard":
-            return {...state, boardSize: [action.payload]}
+            return {...state, boardConfig: action.payload}
         case "changePlayer":
             return {...state, currentPlayer: [action.payload]}
         case "updateSquare":

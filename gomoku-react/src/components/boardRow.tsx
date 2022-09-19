@@ -8,7 +8,7 @@ type BoardRowProps = {
 }
 
 function BoardRow (props: BoardRowProps) {
-    const boardSize = useAppSelector((state) => state.boardSize)
+    const boardSize = Number(useAppSelector((state) => state.boardConfig.boardSize))
     const {row} = props
 
     const squares = [];
