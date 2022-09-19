@@ -1,20 +1,35 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import Replay from "../components/replay";
+import {get} from "../utils/http";
+import {GameType} from "../types";
+
 
 export default function GameLog() {
-    const gameID= useParams().id
-    // @ts-ignore
-    const game = JSON.parse(localStorage.getItem(gameID))
-    const navigate = useNavigate()
-    let moves = game.moves
+  const navigate = useNavigate()
+  const { GameId = '' } = useParams()
+  const [Game, setGame] = useState<GameType>()
+
+  const fetchGameDetails = async (id: string) => {
+    const fetchedGame = await get<GameType>(`/api/Games/${id}`)
+    setGame(fetchedGame)
+  }
+
+  useEffect(() => {
+    fetchGameDetails(GameId)
+  }, [GameId])
+
+  if (!Game) return null
+        
+        
+    let moves = Game.moves
     return (
         <div>
             <h2>Game Log</h2>
 
-            <p>Date: {game.date}</p>
-            <p>Winner: {game.winner}</p>
-            <Replay id={game.gameID} moves={game.moves} boardSize = {game.boardSize}></Replay>
+            <p>Date: {Game.createdAt}</p>
+            <p>Winner: {Game.winner}</p>
+            <Replay id={Game._id} moves={Game.moves} boardSize = {Game.boardSize}></Replay>
             <button onClick={() => navigate('/gameHistory')}>Back to game history</button>
         </div>
     );

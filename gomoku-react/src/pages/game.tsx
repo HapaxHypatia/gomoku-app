@@ -19,7 +19,7 @@ export default function Game() {
     const navigate = useNavigate()
     const createGame = async ()=>{
             //create db entry and return gameID
-        const newgame = await post('/api/game', {
+        const newgame: any = await post('/api/game', {
             boardSize: Number(boardSize),
             length: Number(length),
             gameUser: user,

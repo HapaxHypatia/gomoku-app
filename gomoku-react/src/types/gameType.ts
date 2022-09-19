@@ -2,7 +2,7 @@ import {User} from "./user";
 
 export type GameType = {
     _id: string
-    date: string,
+    createdAt: string,
     boardSize: number,
     length: number,
     user: User,

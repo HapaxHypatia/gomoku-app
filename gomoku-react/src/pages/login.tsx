@@ -1,7 +1,6 @@
 import { useState, useContext, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { UserContext } from '../context'
-import users from '../data/users.json'
 import { Message } from '../components'
 
 export default function Login() {
@@ -60,5 +59,4 @@ export default function Login() {
       </button>
     </form>
   )
-    return (<> </>);
 }

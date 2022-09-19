@@ -8,33 +8,26 @@ import {get} from "../utils/http";
 
 export default function GameHistory() {
     const { user } = useContext(UserContext)
-    const [games, setGames] = useState('')
+    const [games, setGames] = useState<GameType[]>([])
     const fetchGames = async () => {
-        const fetchedGames = await get<GameType[]>('/api/games')
-        // setGames(fetchedGames)
+        if (user){
+            const fetchedGames = await get<GameType[]>(`/api/history/${user._id}`)
+            setGames(fetchedGames)
+        }
+        else{console.log("user id required")}
     }
     useEffect(() => {
         fetchGames()
     }, [])
 
     if (!user) return <Navigate to="/login" replace={true}/>
-    // const IDs =Object.keys(localStorage)
-    //
-    // const games: {}[] = []
-    // for (let ID of IDs){
-    //     games.push(JSON.parse(localStorage.getItem(ID)!))
-    //
-    // }
-
-
     return (
         <>
-        <div>{games}</div>
+        <div></div>
 
-        {/*<ol id={"gamelog"}>*/}
-
-        {/*{games.map((g:{}) => <HistoryItem game={g}/>)}*/}
-        {/*</ol>*/}
+        <ol id={"gamelog"}>
+        {games.map((g) => <HistoryItem game={g}/>)}
+        </ol>
         </>
 
 );

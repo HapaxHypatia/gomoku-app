@@ -9,7 +9,6 @@ export default function Win() {
     const gameState = useAppSelector(state => state)
     const dispatch = useAppDispatch()
     function restart(){
-        localStorage.setItem(gameState.gameID!, JSON.stringify(gameState))
         dispatch({type:"setState", payload:{
                 gameID: "",
                 date: "",
