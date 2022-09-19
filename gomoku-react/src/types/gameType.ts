@@ -6,6 +6,6 @@ export type GameType = {
     boardSize: number,
     length: number,
     user: User,
-    moves: {id:string, player:string}[],
+    moves: {square:string, player:string}[],
     winner: "black" | "white" | "draw" | undefined
 }

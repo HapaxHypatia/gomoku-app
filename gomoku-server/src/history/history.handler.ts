@@ -29,7 +29,7 @@ historyHandler.get(
     '/:userId',
     async (req: Request, res: Response)=>{
     const userId = req.userId
-    const gameHistory = await GameModel.find({ gameUser: userId }).lean();
+    const gameHistory = await GameModel.find({ "gameUser": userId }).lean();
         console.log(gameHistory)
     return res.status(200).send(
         gameHistory.map((g) => ({
@@ -47,6 +47,7 @@ historyHandler.get(
     }
 )
 
+//get single game by id
 historyHandler.get('/:gameId',
     validateSchema(getGameByIdSchema),
     async (req: Request, res: Response) => {

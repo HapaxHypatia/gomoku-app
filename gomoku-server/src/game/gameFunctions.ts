@@ -1,22 +1,6 @@
 import GameModel, {GameDocument} from "./game.model";
 import mongoose, {DocumentDefinition} from "mongoose";
 
-export async function getGameById(id: string) {
-  return await GameModel.findById(id).lean()
-}
-
-export async function createGame(
-  input: DocumentDefinition<GameDocument>
-) {
-  return GameModel.create(input)
-}
-
-export async function deleteGame(id: string, userId: string) {
-  return GameModel.deleteOne({
-    _id: new mongoose.Types.ObjectId(id),
-    userId: new mongoose.Types.ObjectId(userId),
-  })
-}
 
 export function checkLine (x:number, y:number, squareID:string,
                    direction:string, lineLength:number,
