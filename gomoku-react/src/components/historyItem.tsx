@@ -3,11 +3,10 @@ import {useNavigate} from "react-router-dom";
 
 export default function HistoryItem(game:any) {
     const navigate = useNavigate()
-    console.log(game)
     const G= game.game
 
     function loadGame(){
-        const gameID = String(G.gameID)
+        const gameID = String(G._id)
         navigate(`/gameLog/${gameID}`)
     }
     const dateString = G.date

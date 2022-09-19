@@ -8,6 +8,7 @@ import {GameType} from "../types";
 export default function GameLog() {
   const navigate = useNavigate()
   const { GameId = '' } = useParams()
+    console.log(GameId)
   const [Game, setGame] = useState<GameType>()
 
   const fetchGameDetails = async (id: string) => {
