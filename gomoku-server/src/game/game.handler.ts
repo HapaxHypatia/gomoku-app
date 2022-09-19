@@ -19,10 +19,6 @@ async function deleteGame(id: string, userId: string) {
     _id: new mongoose.Types.ObjectId(id),
     userId: new mongoose.Types.ObjectId(userId),
   })
-}async function deleteUserGames(userId: string) {
-  return GameModel.deleteMany({
-    userId: new mongoose.Types.ObjectId(userId),
-  })
 }
 
 //Create new game
@@ -101,7 +97,7 @@ gameHandler.delete(
   async (req: Request, res: Response) => {
     //delete game entry
     const userId = req.userId
-    await deleteUserGames(userId)
+    await GameModel.deleteMany({ "gameUser": userId })
     return res.sendStatus(200)
   }
 )
