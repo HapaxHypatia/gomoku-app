@@ -5,7 +5,7 @@ import white from "../img/white.png"
 import {useAppDispatch, useAppSelector} from "../hooks/hooks";
 import {useNavigate} from "react-router-dom";
 import {UserContext} from "../context";
-import {post} from "../utils/http";
+import {post, put} from "../utils/http";
 
 type SquareProps = {
     id: string
@@ -50,17 +50,25 @@ export default function Square(props: SquareProps) {
     const placeStone = ()=>{
     // Change square status to current player
         const player =  gameState.currentPlayer
+        const gameId = gameState.gameID
         if (status === "empty"){
             //might not have updated state? Watch for this
             setStatus(player)
 
         //    DB calls
         //    TODO update moves array
+            console.log(put(`/game/${gameId}`, {
+                square: id, player: player
+            }))
         //    requires squareID, player
         //    TODO check for win/draw
-        post('/api/game/check', {})
-
-            console.log("win=true")
+        const result = post('/api/game/check', {
+            gameId: gameState.gameID,
+            squareId:id,
+            squares: gameState.squares,
+            player: player
+        })
+        if (result =="win"){
             //    TODO update winner in db
             //    navigate to win page
             navigate('/win', {state: {winner: player}})
@@ -70,6 +78,7 @@ export default function Square(props: SquareProps) {
         //switch current player in gameState
         let newPlayer = player==="black"? "white": "black"
         dispatch({type: 'changePlayer',payload: {newPlayer}})
+    }
     }
 
 

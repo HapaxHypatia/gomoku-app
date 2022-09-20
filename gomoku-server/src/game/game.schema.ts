@@ -27,7 +27,6 @@ export const createGameSchema = object({
   ...payload,
 })
 export const updateGameSchema = object({
-  ...payload,
   ...updateDeleteParams,
 })
 export const deleteGameSchema = object({

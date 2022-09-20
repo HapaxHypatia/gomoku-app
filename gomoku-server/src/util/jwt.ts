@@ -15,6 +15,7 @@ export const verifyJwt = <T>(token: string): T | null => {
     const publicKey = process.env.PUBLIC as string
     return jwt.verify(token, publicKey) as T
   } catch (error) {
+    console.log(error)
     return null
   }
 }

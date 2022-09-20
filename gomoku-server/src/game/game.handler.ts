@@ -1,4 +1,4 @@
-import {checkLine} from "./gameFunctions";
+import {Game} from "./gameFunctions";
 import express, {Request, Response} from "express";
 import {deserializeUser} from "../auth/deserializeUser";
 import validateSchema from "../util/validateSchema";
@@ -7,7 +7,7 @@ import GameModel, {GameDocument} from "./game.model";
 import mongoose, {DocumentDefinition} from "mongoose";
 
 const gameHandler = express.Router()
-gameHandler.use(deserializeUser)
+// gameHandler.use(deserializeUser)
 
 async function createGame(
   input: DocumentDefinition<GameDocument>
@@ -32,30 +32,42 @@ gameHandler.post('/',
   return res.status(200).send(newGame)
 })
 
-//Update moves (require gameId & userId)
+//Update moves (require gameId)
 gameHandler.put('/:id/',
-  // validateSchema(updateGameSchema),
+  validateSchema(updateGameSchema),
   async (req: Request, res: Response) => {
     const userId = req.userId
-    const input = req.body
+    const square = req.body.square
+    const player = req.body.player
     const gameId = req.params.id
     const newGame = await GameModel.findOneAndUpdate(
         {
-            _id: new mongoose.Types.ObjectId(gameId),
-            userId: new mongoose.Types.ObjectId(userId),
+            _id: new mongoose.Types.ObjectId(gameId)
         },
         {
-            $addToSet:{"moves": input}},
+            $addToSet:{"moves": {"square":square, "player":player}}},
         {
             new:true
-        } // new option to true to return the document after update was applied.
+        }
     )
     if (!newGame) return res.sendStatus(404)
     return res.status(200).json(newGame)
 })
 
+gameHandler.post('/check',
+    // validateSchema(),
+    async (req: Request, res: Response) => {
+        const gameId = req.body.gameId
+        const squareId = req.body.squareId
+        const squares = req.body.squares
+        const player = req.body.player
+        const result = Game(gameId, squareId, squares, player)
+        return res.status(200).json(result)
+    }
+    )
+
 //clear moves array
-gameHandler.put('/:id/clear',
+gameHandler.put('/clear/:id',
       async (req: Request, res: Response) => {
     const userId = req.userId
     const gameId = req.params.id
@@ -91,18 +103,7 @@ gameHandler.delete(
   }
 )
 
-//Delete games by userId
-gameHandler.delete(
-  '/user/:userId',
-  // validateSchema(deleteGameSchema),
-  async (req: Request, res: Response) => {
-    //delete game entry
-    const userId = req.userId
-    const objID = new mongoose.Types.ObjectId(userId)
-    await GameModel.deleteMany({ 'gameUser': objID })
-    return res.sendStatus(200)
-  }
-)
+
 
 
 export default gameHandler

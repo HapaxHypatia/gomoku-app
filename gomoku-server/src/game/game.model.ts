@@ -3,7 +3,7 @@ import {UserDocument} from "../auth/user.model";
 
 export interface GameDocument extends Document {
     boardSize: number,
-    length: number,
+    lineLength: number,
     gameUser: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     moves: {square:string, player:string}[],
     winner: "black" | "white"|"draw" | "none", 
@@ -12,9 +12,13 @@ export interface GameDocument extends Document {
 
 const gameSchema = new mongoose.Schema({
     boardSize: Number,
-    length: Number,
+    lineLength: Number,
     gameUser: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-    moves: [{square:String, player:String}],
+    moves: [new Schema({
+        move: {type: Schema.Types.ObjectId, ref: 'Move'},
+        square: String,
+        player: String},
+        {_id: false})],
     winner: String
 },{ timestamps: true })
 
