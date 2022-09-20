@@ -21,7 +21,7 @@ export default function Game() {
         //create db entry and return gameID
         const newgame: any = await post('/api/game', {
             boardSize: Number(boardSize),
-            length: Number(length),
+            lineLength: Number(length),
             gameUser: user,
             moves: [],
             winner: "none"

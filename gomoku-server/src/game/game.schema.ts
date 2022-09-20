@@ -8,7 +8,7 @@ const payload = {
     boardSize: number({
       required_error: 'Board size is required',
     }),
-    length: number({
+    lineLength: number({
       required_error: 'Line length is required',
     }),
   }),
