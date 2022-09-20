@@ -48,15 +48,15 @@ export default function Square(props: SquareProps) {
     }, [status])
 
     const placeStone = async ()=>{
-    // Change square status to current player
         const player =  gameState.currentPlayer
         const gameId = gameState.gameID
         if (status === "empty"){
             //might not have updated state? Watch for this
+            // Change square status to current player
             setStatus(player)
 
-        //    DB calls
-            console.log(await put(`/game/${gameId}`,
+            //    DB calls
+            console.log(await put(`/api/game/${gameId}`,
                 {square: id, player: player}
             ))
             const result = await post('/api/game/check', {
@@ -64,18 +64,18 @@ export default function Square(props: SquareProps) {
             squareId:id,
             squares: gameState.squares,
             player: player
-        })
+            })
             console.log(result)
             if (result =="win"){
                 //    TODO update winner in db
                 //    navigate to win page
                 navigate('/win', {state: {winner: player}})
             }
-        //switch current player in gameState
-        const newPlayer = player==="black"? "white": "black"
-        //    TODO not getting to here- player never changes
-        dispatch({type: 'changePlayer',payload: {newPlayer}})
-    }
+            //switch current player in gameState
+            const newPlayer = player==="black"? "white": "black"
+            //    TODO not getting to here- player never changes
+            dispatch({type: 'changePlayer',payload: newPlayer})
+        }
     }
 
     return (

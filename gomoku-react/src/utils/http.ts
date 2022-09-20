@@ -31,6 +31,7 @@ export async function put<Req, Res>(path: string, body: Req): Promise<Res> {
       headers: {
         ...(token && { Authorization: `Bearer ${token}` }),
         'Content-Type': 'application/json',
+        'Accept': 'application/json'
       },
       body: JSON.stringify(body),
       method: 'put',

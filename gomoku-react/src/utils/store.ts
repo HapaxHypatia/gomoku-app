@@ -21,7 +21,7 @@ function gameReducer(state: GameState, action:any){
         case "setBoard":
             return {...state, boardConfig: action.payload}
         case "changePlayer":
-            return {...state, currentPlayer: [action.payload]}
+            return {...state, currentPlayer: action.payload}
         case "updateSquare":
             const square = state.squares.find((sq) => sq.id===action.payload.id)
             if (!square){

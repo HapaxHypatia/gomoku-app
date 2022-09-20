@@ -51,6 +51,7 @@ gameHandler.put('/:id/',
         }
     )
     if (!newGame) return res.sendStatus(404)
+    res.setHeader("Content-Type", "application/json");
     return res.status(200).json(newGame)
 })
 

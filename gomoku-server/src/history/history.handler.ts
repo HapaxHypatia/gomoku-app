@@ -20,7 +20,7 @@ historyHandler.get('/usergames',
         date:g.createdAt,
         winner: g.winner,
         boardSize: g.boardSize,
-        length: g.length,
+        lineLength: g.lineLength,
         player: g.gameUser,
         moves: g.moves
         }
