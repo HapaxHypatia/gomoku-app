@@ -5,6 +5,7 @@ import {deserializeUser} from "../auth/deserializeUser";
 import mongoose from "mongoose";
 
 const historyHandler = express.Router()
+historyHandler.use(deserializeUser)
 
  async function getGameById(id: string) {
   return await GameModel.findById(id).lean()

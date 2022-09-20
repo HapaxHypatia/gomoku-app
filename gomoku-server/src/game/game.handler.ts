@@ -7,6 +7,7 @@ import GameModel, {GameDocument} from "./game.model";
 import mongoose, {DocumentDefinition} from "mongoose";
 
 const gameHandler = express.Router()
+gameHandler.use(deserializeUser)
 
 async function createGame(
   input: DocumentDefinition<GameDocument>

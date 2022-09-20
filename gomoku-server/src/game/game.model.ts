@@ -6,7 +6,8 @@ export interface GameDocument extends Document {
     length: number,
     gameUser: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     moves: {square:string, player:string}[],
-    winner: "black" | "white"|"draw" | "none"
+    winner: "black" | "white"|"draw" | "none", 
+    createdAt?: Date
 }
 
 const gameSchema = new mongoose.Schema({
