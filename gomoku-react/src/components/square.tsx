@@ -73,7 +73,6 @@ export default function Square(props: SquareProps) {
             }
             //switch current player in gameState
             const newPlayer = player==="black"? "white": "black"
-            //    TODO not getting to here- player never changes
             dispatch({type: 'changePlayer',payload: newPlayer})
         }
     }

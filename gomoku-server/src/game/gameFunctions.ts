@@ -10,9 +10,10 @@ export function Game(
         const game = await GameModel.findById(gameId).lean()
         return game
     }
-
-    const game = getGame()
-    const lineLength = game.lineLength
+    const lineLength=5
+    // const game = getGame()
+    // //TODO get linelength from db
+    // const lineLength = game.lineLength
 
     //    db call by gameID
     function checkLine (direction:string){
