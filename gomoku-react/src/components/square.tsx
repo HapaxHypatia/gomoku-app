@@ -56,13 +56,13 @@ export default function Square(props: SquareProps) {
             setStatus(player)
 
             //    DB calls
-            console.log(await put(`/api/game/${gameId}`,
-                {square: id, player: player}
-            ))
+            await put(`/api/game/${gameId}`,
+                {square: id, player: player})
             const result = await post('/api/game/check', {
             gameId: gameState.gameID,
             squareId:id,
             squares: gameState.squares,
+            //    gamestate hasn't updated here yet
             player: player
             })
             console.log(result)
