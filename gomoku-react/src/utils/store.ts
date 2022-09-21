@@ -1,17 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit'
-import {GameType, User} from "../types";
-import userContext from "../context/UserContext";
-import {useContext} from "react";
-import {UserContext} from "../context";
-import {GameState} from "../types/gameState";
-
-const initialGameState: GameState = {
-    currentPlayer: "black",
-    squares: [],
-    gameID: '',
-    boardConfig: {boardSize:15, length:5}
-
-    }
+import {GameState} from "../types";
 
 function gameReducer(state: GameState, action:any){
 
@@ -40,9 +28,14 @@ function gameReducer(state: GameState, action:any){
 }
 
 export const store =configureStore({
-    reducer:gameReducer,
-    preloadedState: initialGameState
-})
+    reducer :gameReducer,
+    preloadedState: {
+        currentPlayer: "black",
+        squares: [],
+        gameID: '',
+        boardConfig: {boardSize:15, length:5}
+        }
+    })
 
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

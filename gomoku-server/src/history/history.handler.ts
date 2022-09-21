@@ -6,12 +6,27 @@ import mongoose from "mongoose";
 import gameHandler from "../game/game.handler";
 
 const historyHandler = express.Router()
-// historyHandler.use(deserializeUser)
+//To switch to using deserialize:
+// - uncomment middleware
+// - change authMethod to "deserialize"
+
+// gameHandler.use(deserializeUser)
+const authMethod = "local storage"
+
+function getUser(req:Request){
+    let userId
+    if(authMethod==="deserialize"){
+        userId = req.userId}
+    else{
+         userId = req.headers.cookie
+        }
+    return userId
+    }
 
 //GET games by userId
 historyHandler.get('/usergames',
     async (req: Request, res: Response)=>{
-    const userId = req.userId
+    const userId = getUser(req)
     const objID = new mongoose.Types.ObjectId(userId)
     const gameHistory = await GameModel.find({ "gameUser": objID });
     return res.status(200).send(
@@ -34,7 +49,6 @@ historyHandler.get('/usergames',
 historyHandler.get('/:gameId',
     async (req: Request, res: Response) => {
     const GameId = req.params.gameId
-    const objID = new mongoose.Types.ObjectId(GameId)
     const game = await GameModel.findById(GameId).lean()
     return res.status(200).send(game)
     }
@@ -46,16 +60,11 @@ historyHandler.delete(
   // validateSchema(deleteGameSchema),
   async (req: Request, res: Response) => {
     //delete game entry
-    const userId = req.userId
-      console.log(userId)
+    const userId = getUser(req)
     const objID = new mongoose.Types.ObjectId(userId)
     await GameModel.deleteMany({ 'gameUser': objID })
     return res.sendStatus(200)
   }
 )
-
-historyHandler.get('/', (req: Request, res: Response)=> {
-  res.send('History')
-})
 
 export default historyHandler

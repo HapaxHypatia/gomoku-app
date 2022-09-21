@@ -7,7 +7,24 @@ import GameModel, {GameDocument} from "./game.model";
 import mongoose, {DocumentDefinition} from "mongoose";
 
 const gameHandler = express.Router()
+
+//To switch to using deserialize:
+// - uncomment middleware
+// - change authMethod to "deserialize"
+
 // gameHandler.use(deserializeUser)
+const authMethod = "local storage"
+
+function getUser(req:Request){
+    let userId
+    if(authMethod==="deserialize"){
+        userId = req.userId}
+    else{
+         userId = req.headers.cookie
+        }
+    return userId
+    }
+
 
 async function createGame(
   input: DocumentDefinition<GameDocument>
@@ -26,9 +43,9 @@ async function deleteGame(id: string, userId: string) {
 gameHandler.post('/',
   validateSchema(createGameSchema),
   async (req: Request, res: Response) => {
-  const userId = req.userId
+  const userId = getUser(req)
   const gameDetails = req.body
-  const newGame = await createGame({ ...gameDetails, userId })
+  const newGame = await createGame({ ...gameDetails, gameUser:new mongoose.Types.ObjectId(userId) })
   return res.status(200).send(newGame)
 })
 
@@ -36,7 +53,6 @@ gameHandler.post('/',
 gameHandler.put('/:id/',
   validateSchema(updateGameSchema),
   async (req: Request, res: Response) => {
-    const userId = req.userId
     const square = req.body.square
     const player = req.body.player
     const gameId = req.params.id
@@ -70,13 +86,10 @@ gameHandler.post('/check',
 //clear moves array
 gameHandler.put('/clear/:id',
       async (req: Request, res: Response) => {
-    const userId = req.userId
     const gameId = req.params.id
-
     const newGame = await GameModel.findOneAndUpdate(
         {
-            _id: new mongoose.Types.ObjectId(gameId),
-            userId: new mongoose.Types.ObjectId(userId),
+            _id: new mongoose.Types.ObjectId(gameId)
             },
     {
             $set: {"moves":[]}
@@ -88,7 +101,6 @@ gameHandler.put('/clear/:id',
     if (!newGame) return res.sendStatus(404)
     return res.status(200).json(newGame)
     }
-
 )
 
 //Delete game by ID
@@ -98,13 +110,10 @@ gameHandler.delete(
   async (req: Request, res: Response) => {
     //delete game entry
     const GameId = req.params.id
-    const userId = req.userId
+    const userId = getUser(req)
     await deleteGame(GameId, userId)
     return res.sendStatus(200)
   }
 )
-
-
-
 
 export default gameHandler
