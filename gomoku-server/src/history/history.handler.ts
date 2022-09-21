@@ -6,7 +6,7 @@ import mongoose from "mongoose";
 import gameHandler from "../game/game.handler";
 
 const historyHandler = express.Router()
-historyHandler.use(deserializeUser)
+// historyHandler.use(deserializeUser)
 
 //GET games by userId
 historyHandler.get('/usergames',
@@ -42,7 +42,7 @@ historyHandler.get('/:gameId',
 
 //Delete games by userId
 historyHandler.delete(
-  '/user',
+  '/deleteHistory',
   // validateSchema(deleteGameSchema),
   async (req: Request, res: Response) => {
     //delete game entry
