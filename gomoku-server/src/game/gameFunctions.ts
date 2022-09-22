@@ -5,21 +5,22 @@ export async function Game(
     squareId: string,
     squares: { id: string, status: string }[],
     player: string) {
-
+    console.log("player is "+player)
     //get lineLength from db
-    console.log("gameId: "+gameId)
     const game = await GameModel.findById(gameId)
-    console.log(game)
     let lineLength:number
-    if (game){lineLength = game.lineLength}
+    if (game){
+        lineLength = game.lineLength
+        console.log("lineLength is "+lineLength)
+}
 
     function checkLine(direction: string) {
 
-        const y = Number(squareId.slice(0, 2))
-        const x = Number(squareId.slice(2, 4))
-        console.log(direction, squareId)
+        const x = Number(squareId.slice(0, 2))
+        const y = Number(squareId.slice(2, 4))
+        console.log("Checking "+direction +" from "+squareId)
         let line:number = 0;
-        for (let i = 1; i < lineLength; i++) {
+        for (let i = 1; i < lineLength+1; i++) {
             const directions: { [key: string]: string } = {
                 N: String(x).padStart(2, '0') + String(y - i).padStart(2, '0'),
                 S: String(x).padStart(2, '0') + String(y + i).padStart(2, '0'),
@@ -31,10 +32,9 @@ export async function Game(
                 SE: String(x + i).padStart(2, '0') + String(y + i).padStart(2, '0')
             }
             //find neighbouring cell in squares array by id
+            let cellId = directions[direction]
             let cell = squares.find((sq) =>
-                sq.id === directions[direction])
-            console.log(cell)
-
+                sq.id === cellId)
             if (!cell) {
                 break;
             }
@@ -44,6 +44,7 @@ export async function Game(
                 break;
             }
         }
+        console.log(direction+" : "+line)
         return line;
     }
 

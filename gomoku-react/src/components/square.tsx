@@ -23,8 +23,8 @@ export default function Square(props: SquareProps) {
 
     useEffect(()=>{
         //Create or update square in state
-        const found = gameState.squares.some(sq => sq.id === id);
-        if (!found){dispatch({
+        const found = gameState.squares.findIndex(sq => sq.id === id);
+        if (found==-1){dispatch({
             type: 'createSquare',
             payload:{id:id, status:"empty"}})}
         else{dispatch({
@@ -50,7 +50,6 @@ export default function Square(props: SquareProps) {
         const player =  gameState.currentPlayer
         const gameId = gameState.gameID
         if (status === "empty"){
-            //might not have updated state? Watch for this
             // Change square status to current player
             setStatus(player)
 
@@ -63,7 +62,6 @@ export default function Square(props: SquareProps) {
                     squareId:id,
                     squares: gameState.squares,
                     userId: user._id,
-                    //    gamestate hasn't updated here yet
                     player: player
                 })
                 console.log(result)

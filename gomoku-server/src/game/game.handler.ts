@@ -58,7 +58,7 @@ gameHandler.put('/update',
   // validateSchema(updateGameSchema),
   async (req: Request, res: Response) => {
     console.log("updatemoves")
-    const square = req.body.square
+    const square = req.body.squareId
     const player = req.body.player
     const gameId = req.body.gameId
     const newGame = await GameModel.findOneAndUpdate(
@@ -83,7 +83,8 @@ gameHandler.post('/check',
         const squareId:string = req.body.squareId
         const squares = req.body.squares
         const player = req.body.player
-        const result = Game(gameId, squareId, squares, player)
+        const result = await Game(gameId, squareId, squares, player)
+        console.log(result)
         return res.status(200).json(result)
     }
     )

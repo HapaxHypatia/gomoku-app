@@ -26,8 +26,7 @@ function gameReducer(state: GameState|undefined=initialState, action:any){
                     return square
                 }
                 return {
-                    ...square,
-                    id: action.payload.id, status: action.payload.status
+                     id: action.payload.id, status: action.payload.status
                 }
                 })
             }
