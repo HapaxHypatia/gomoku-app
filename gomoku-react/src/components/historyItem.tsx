@@ -6,8 +6,7 @@ export default function HistoryItem(game:any) {
     const G= game.game
 
     function loadGame(){
-        const gameID = String(G._id)
-        navigate(`/gameLog/${gameID}`)
+        navigate('/gameLog/', {state:{game:G}})
     }
     const dateString = G.date
     const year = dateString.slice(0, 4)
@@ -41,6 +40,7 @@ export default function HistoryItem(game:any) {
             <br/>
             Length: {G.length}
             <br/>
+            Number of moves: {G.moves.length}
         </li>
     );
 }

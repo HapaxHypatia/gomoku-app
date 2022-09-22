@@ -57,7 +57,7 @@ gameHandler.post('/',
 gameHandler.put('/update',
   // validateSchema(updateGameSchema),
   async (req: Request, res: Response) => {
-    const square = req.body.squareId
+    const square = req.body.square
     const player = req.body.player
     const gameId = req.body.gameId
     const newGame = await GameModel.findOneAndUpdate(

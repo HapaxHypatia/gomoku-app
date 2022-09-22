@@ -1,27 +1,28 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import cross from "../img/cross.png"
 import black from "../img/black.png"
 import white from "../img/white.png"
 
-type ReplayProps = {
-    id:string
-    boardSize: number
+type replayProps = {
+    boardSize:number
     moves: {square:string, player:string}[]
 }
 
-export default function Replay(props:ReplayProps) {
-    const {id, boardSize, moves} = props
+
+export default function Replay(props:replayProps ) {
     const [count, setCount] = useState(0)
+    const {boardSize, moves} = props
+    console.log(moves)
 
     //create table
     const rows=Array.from(Array(boardSize).keys())
     const squares=Array.from(Array(boardSize).keys())
 
     const children  = rows.map((r)=>
-        (<tr>{squares.map((sq)=>
-            (<td id={String(r).padStart(2,'0') +String(sq).padStart(2,'0')} height={'25px'} width={'25px'}>
-                <img id={"img"+String(r).padStart(2,'0') +String(sq).padStart(2,'0')} alt='' src={cross}  width='25px' height='25px'/></td>))}
-        </tr>))
+            (<tr>{squares.map((sq)=>
+                (<td id={String(r).padStart(2,'0') +String(sq).padStart(2,'0')} height={'25px'} width={'25px'}>
+                    <img id={"img"+String(r).padStart(2,'0') +String(sq).padStart(2,'0')} alt='' src={cross}  width='25px' height='25px'/></td>))}
+            </tr>))
 
     function next(){
         //get square by ID
