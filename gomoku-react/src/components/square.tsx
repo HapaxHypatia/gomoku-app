@@ -57,6 +57,7 @@ export default function Square(props: SquareProps) {
             if (user){
                 await put(`/api/game/update`,
                     {square: id, player: player, userId: user._id, gameId: gameId})
+                //TODO checkDraw is not working because sq component does not have updated squares array yet
                 const result = await post('/api/game/check', {
                     gameId: gameState.gameID,
                     squareId:id,
@@ -65,14 +66,17 @@ export default function Square(props: SquareProps) {
                     player: player
                 })
                 console.log(result)
-                if (result =="win"){
-                    //    TODO update winner in db
-                    //    navigate to win page
-                    navigate('/win', {state: {winner: player}})
-                }
                 //switch current player in gameState
+                const prevPlayer = player
                 const newPlayer = player==="black"? "white": "black"
                 dispatch({type: 'changePlayer',payload: newPlayer})
+                if (result ==="win"){
+                    //    navigate to win page
+                    navigate('/win', {state: {winner: prevPlayer}})
+                }
+                if (result==="draw"){
+                    navigate('/draw')
+                }
 
             }
         }

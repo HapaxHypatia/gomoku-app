@@ -1,4 +1,5 @@
 import GameModel, {GameDocument} from "./game.model";
+import mongoose from "mongoose";
 
 export async function Game(
     gameId: string,
@@ -58,16 +59,21 @@ export async function Game(
     }
 
     function checkDraw() {
-        const freeSpace = squares.some((sq) => sq.status === "empty")
+        const freeSpace = squares.findIndex(sq => sq.status === "empty")
+        console.log("first freespace = "+freeSpace)
         if (!freeSpace) {
             return true
         }
     }
-
-    if (checkDraw()) {
-        return "draw"
-    }
+    //TODO checkdraw always returns draw if user plays more than one game, because it still has teh squares array from the last game
+    // if (checkDraw()) {
+    //     // @ts-ignore
+    //     game.set("winner","draw")
+    //     return "draw"
+    // }
     if (checkWin()) {
+        // @ts-ignore
+        game.set("winner",player)
         return "win"
     } else {
         return "continue"
