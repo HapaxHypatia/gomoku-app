@@ -17,6 +17,7 @@ const authMethod = "local storage"
 
 function getUser(req:Request){
     let userId
+    // @ts-ignore
     if(authMethod==="deserialize"){
         userId = req.userId}
     else{
@@ -54,7 +55,7 @@ gameHandler.post('/',
 
 //Update moves (require gameId)
 gameHandler.put('/update',
-  validateSchema(updateGameSchema),
+  // validateSchema(updateGameSchema),
   async (req: Request, res: Response) => {
     console.log("updatemoves")
     const square = req.body.square

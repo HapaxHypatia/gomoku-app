@@ -5,11 +5,11 @@ const initialState:GameState =
     gameID: '',
     currentPlayer: "black",
     squares: [],
-    boardConfig: {boardSize:15, lineLength:5}
+    boardConfig: {boardSize:0, lineLength:5}
     }
 
 
-function gameReducer(state=initialState, action:any){
+function gameReducer(state: GameState|undefined=initialState, action:any){
 
     switch (action.type){
         case "setID":

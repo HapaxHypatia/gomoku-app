@@ -9,7 +9,9 @@ type BoardRowProps = {
 
 function BoardRow (props: BoardRowProps) {
     const boardSize = Number(useAppSelector((state) => state.boardConfig.boardSize))
+
     const {row} = props
+    console.log("row number = "+row)
 
     const squares = [];
     for (let i = 0; i<boardSize; i++){

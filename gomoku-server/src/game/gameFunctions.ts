@@ -10,15 +10,15 @@ export async function Game(
     console.log("gameId: "+gameId)
     const game = await GameModel.findById(gameId)
     console.log(game)
-    const lineLength = game.lineLength
-    console.log("lineLength: "+lineLength)
+    let lineLength:number
+    if (game){lineLength = game.lineLength}
 
     function checkLine(direction: string) {
 
         const y = Number(squareId.slice(0, 2))
         const x = Number(squareId.slice(2, 4))
         console.log(direction, squareId)
-        let line = 0;
+        let line:number = 0;
         for (let i = 1; i < lineLength; i++) {
             const directions: { [key: string]: string } = {
                 N: String(x).padStart(2, '0') + String(y - i).padStart(2, '0'),

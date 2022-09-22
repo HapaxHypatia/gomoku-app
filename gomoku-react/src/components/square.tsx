@@ -55,25 +55,28 @@ export default function Square(props: SquareProps) {
             setStatus(player)
 
             //    DB calls
-            await put(`/api/game/update`,
-                {square: id, player: player, userId: user._id, gameId: gameId})
-            const result = await post('/api/game/check', {
-            gameId: gameState.gameID,
-            squareId:id,
-            squares: gameState.squares,
-            userId: user._id,
-            //    gamestate hasn't updated here yet
-            player: player
-            })
-            console.log(result)
-            if (result =="win"){
-                //    TODO update winner in db
-                //    navigate to win page
-                navigate('/win', {state: {winner: player}})
+            if (user){
+                await put(`/api/game/update`,
+                    {square: id, player: player, userId: user._id, gameId: gameId})
+                const result = await post('/api/game/check', {
+                    gameId: gameState.gameID,
+                    squareId:id,
+                    squares: gameState.squares,
+                    userId: user._id,
+                    //    gamestate hasn't updated here yet
+                    player: player
+                })
+                console.log(result)
+                if (result =="win"){
+                    //    TODO update winner in db
+                    //    navigate to win page
+                    navigate('/win', {state: {winner: player}})
+                }
+                //switch current player in gameState
+                const newPlayer = player==="black"? "white": "black"
+                dispatch({type: 'changePlayer',payload: newPlayer})
+
             }
-            //switch current player in gameState
-            const newPlayer = player==="black"? "white": "black"
-            dispatch({type: 'changePlayer',payload: newPlayer})
         }
     }
 

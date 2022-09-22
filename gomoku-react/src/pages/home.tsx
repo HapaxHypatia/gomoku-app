@@ -1,12 +1,17 @@
 import React, {FormEvent, useState} from "react";
 import {useNavigate} from "react-router-dom";
+import {useAppDispatch} from "../hooks/hooks";
 
 export default function Home() {
     const nav = useNavigate()
-    const [boardSize, setBoardSize] = useState<number>(15)
-    const [length, setLength] = useState<number>(5)
+    const [boardSize, setBoardSize] = useState<number>(0)
+    const [length, setLength] = useState<number>(0)
+    const dispatch = useAppDispatch()
     function handleSetup(e: FormEvent<HTMLFormElement>){
         e.preventDefault()
+        dispatch({
+            type: "setBoard",
+            payload: {boardSize: boardSize, length: length}})
         let path = `/game/${boardSize}/${length}`
         nav(path)
     }

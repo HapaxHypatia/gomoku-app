@@ -4,6 +4,7 @@ import React, {useContext, useEffect, useState} from "react";
 import {UserContext} from "../context";
 import {useAppDispatch, useAppSelector} from "../hooks/hooks";
 import {post, put} from "../utils/http";
+import {User} from "../types";
 
 
 
@@ -16,17 +17,19 @@ export default function Game() {
     const navigate = useNavigate()
     const createGame = async ()=> {
         //create db entry and return gameID
-        const newgame: any = await post('/api/game', {
-            game:{
-                boardSize: Number(boardSize),
-                lineLength: Number(length),
-                moves: [],
-                winner: "none"
+        if (user){
+        const newGame: any = await post('/api/game', {
+                game:{
+                    boardSize: Number(boardSize),
+                    lineLength: Number(length),
+                    moves: [],
+                    winner: "none"
                 },
-            userId: user._id
-        })
-        dispatch({type: "setID", payload: newgame._id})
-        dispatch({type: "setBoard", payload: {boardSize: boardSize, length: length}})
+                userId: user._id
+            })
+            dispatch({type: "setID", payload: newGame._id})
+            dispatch({type: "setBoard", payload: {boardSize: boardSize, length: length}})
+        }
     }
 
     useEffect(() => {

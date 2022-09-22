@@ -3,7 +3,6 @@ import validateSchema from '../util/validateSchema'
 import GameModel from '../game/game.model'
 import {deserializeUser} from "../auth/deserializeUser";
 import mongoose from "mongoose";
-import gameHandler from "../game/game.handler";
 
 const historyHandler = express.Router()
 //To switch to using deserialize:
@@ -15,10 +14,11 @@ const authMethod = "local storage"
 
 function getUser(req:Request){
     let userId
+    // @ts-ignore
     if(authMethod==="deserialize"){
         userId = req.userId}
     else{
-         userId = req.headers.cookie
+         userId = req.body.userId
         }
     return userId
     }
