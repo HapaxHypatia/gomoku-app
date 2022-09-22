@@ -38,7 +38,7 @@ export default function HistoryItem(game:any) {
             <br/>
             Board size: {G.boardSize}
             <br/>
-            Length: {G.length}
+            Length: {G.lineLength}
             <br/>
             Number of moves: {G.moves.length}
         </li>

@@ -28,7 +28,7 @@ historyHandler.post('/usergames',
     async (req: Request, res: Response)=>{
     const userId = getUser(req)
     const objID = new mongoose.Types.ObjectId(userId)
-    const gameHistory = await GameModel.find({ "gameUser": objID });
+    const gameHistory = await GameModel.find({ "gameUser": objID, 'moves.1':{$exists:true}});
     return res.status(200).send(
         gameHistory.map((g) => ({
         _id: g._id,
