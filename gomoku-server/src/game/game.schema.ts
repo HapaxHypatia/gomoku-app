@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 const payload = {
   //input to create a game
 
-  body: object({
+  game: object({
     boardSize: number({
       required_error: 'Board size is required',
     }),

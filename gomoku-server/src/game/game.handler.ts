@@ -20,8 +20,9 @@ function getUser(req:Request){
     if(authMethod==="deserialize"){
         userId = req.userId}
     else{
-         userId = req.headers.cookie
+         userId = req.body.userId
         }
+    console.log("userId = "+userId)
     return userId
     }
 
@@ -41,21 +42,24 @@ async function deleteGame(id: string, userId: string) {
 
 //Create new game
 gameHandler.post('/',
-  validateSchema(createGameSchema),
+  // validateSchema(createGameSchema),
   async (req: Request, res: Response) => {
   const userId = getUser(req)
-  const gameDetails = req.body
-  const newGame = await createGame({ ...gameDetails, gameUser:new mongoose.Types.ObjectId(userId) })
+  const gameDetails = req.body.game
+  const newGame = await createGame({
+      ...gameDetails,
+      gameUser:new mongoose.Types.ObjectId(userId) })
   return res.status(200).send(newGame)
 })
 
 //Update moves (require gameId)
-gameHandler.put('/:id/',
+gameHandler.put('/update',
   validateSchema(updateGameSchema),
   async (req: Request, res: Response) => {
+    console.log("updatemoves")
     const square = req.body.square
     const player = req.body.player
-    const gameId = req.params.id
+    const gameId = req.body.gameId
     const newGame = await GameModel.findOneAndUpdate(
         {
             _id: new mongoose.Types.ObjectId(gameId)
@@ -74,8 +78,8 @@ gameHandler.put('/:id/',
 gameHandler.post('/check',
     // validateSchema(),
     async (req: Request, res: Response) => {
-        const gameId = req.body.gameId
-        const squareId = req.body.squareId
+        const gameId:string = req.body.gameId
+        const squareId:string = req.body.squareId
         const squares = req.body.squares
         const player = req.body.player
         const result = Game(gameId, squareId, squares, player)
@@ -84,9 +88,11 @@ gameHandler.post('/check',
     )
 
 //clear moves array
-gameHandler.put('/clear/:id',
+gameHandler.put('/clear',
       async (req: Request, res: Response) => {
-    const gameId = req.params.id
+    console.log("clearmoves")
+    const gameId = req.body.gameId
+          console.log('gameId = '+gameId)
     const newGame = await GameModel.findOneAndUpdate(
         {
             _id: new mongoose.Types.ObjectId(gameId)

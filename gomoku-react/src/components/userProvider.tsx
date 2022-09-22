@@ -12,6 +12,7 @@ export default function UserProvider({ children }: UserProviderProps) {
   const [user, setUser] = useLocalStorage<User | undefined>('user', undefined)
   if (user) {
     setToken(user.token)
+    sessionStorage.setItem('user', user._id)
   }
 
   const login = async (username: string, password: string) => {

@@ -3,28 +3,27 @@ import {Navigate, useNavigate, useParams} from "react-router-dom";
 import React, {useContext, useEffect, useState} from "react";
 import {UserContext} from "../context";
 import {useAppDispatch, useAppSelector} from "../hooks/hooks";
-import {post} from "../utils/http";
+import {post, put} from "../utils/http";
 
 
 
 export default function Game() {
     const gameState = useAppSelector(state => state)
-    const [game, setGame] = useState('')
     const dispatch = useAppDispatch()
     const {boardSize, length} = useParams()
-    const now = new Date()
-    const date = now.toUTCString()
     const { user } = useContext(UserContext)
 
     const navigate = useNavigate()
     const createGame = async ()=> {
         //create db entry and return gameID
         const newgame: any = await post('/api/game', {
-            boardSize: Number(boardSize),
-            lineLength: Number(length),
-            gameUser: user,
-            moves: [],
-            winner: "none"
+            game:{
+                boardSize: Number(boardSize),
+                lineLength: Number(length),
+                moves: [],
+                winner: "none"
+                },
+            userId: user._id
         })
         dispatch({type: "setID", payload: newgame._id})
         dispatch({type: "setBoard", payload: {boardSize: boardSize, length: length}})
@@ -34,15 +33,11 @@ export default function Game() {
         createGame()
         }, [boardSize])
 
-    function reset() {
-        // // clear moves array & switch player
-        // dispatch({type: 'setState',
-        //         payload:{
-        //                 moves: [],
-        //                 currentPlayer: "black"
-        //             }
-        //         }
-        // )
+    const reset = async ()=>{
+        const gameId = gameState.gameID
+        await put('/api/game/clear', {gameId:gameId})
+        console.log(gameId)
+        dispatch({type:"changePlayer", payload:"black"})
     }
 
     function leave(){

@@ -14,7 +14,7 @@ function BoardRow (props: BoardRowProps) {
     const squares = [];
     for (let i = 0; i<boardSize; i++){
         let squareID = String(row).padStart(2,'0') +String(i).padStart(2,'0')
-        squares.push(<Square id={squareID} x={row} y={i} status={"empty"}></Square>)
+        squares.push(<Square id={squareID}></Square>)
 
     }
     return (
