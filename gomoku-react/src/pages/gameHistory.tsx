@@ -4,14 +4,14 @@ import { useContext } from "react";
 import { Navigate } from "react-router-dom"
 import {HistoryItem} from "../components";
 import {GameType} from "../types";
-import {get} from "../utils/http";
+import {get, post} from "../utils/http";
 
 export default function GameHistory() {
     const { user } = useContext(UserContext)
     const [games, setGames] = useState<GameType[]>([])
     const fetchGames = async () => {
         if (user){
-            const fetchedGames = await get<GameType[]>(`/api/history/usergames/`)
+            const fetchedGames: GameType[] = await post('/api/history/usergames/', {userId: user._id})
             //TODO not working because userid not present on req
             setGames(fetchedGames)
         }

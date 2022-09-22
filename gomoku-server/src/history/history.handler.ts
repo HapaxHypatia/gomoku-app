@@ -24,7 +24,7 @@ function getUser(req:Request){
     }
 
 //GET games by userId
-historyHandler.get('/usergames',
+historyHandler.post('/usergames',
     async (req: Request, res: Response)=>{
     const userId = getUser(req)
     const objID = new mongoose.Types.ObjectId(userId)

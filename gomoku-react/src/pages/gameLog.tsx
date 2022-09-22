@@ -7,18 +7,20 @@ import {GameType} from "../types";
 
 export default function GameLog() {
   const navigate = useNavigate()
-  const { GameId = '' } = useParams()
-    console.log(GameId)
+  const {gameId} = useParams()
+  console.log(gameId)
   const [Game, setGame] = useState<GameType>()
 
   const fetchGameDetails = async (id: string) => {
-    const fetchedGame = await get<GameType>(`/api/history/${GameId}`)
+    const fetchedGame = await get<GameType>(`/api/history/${gameId}`)
     setGame(fetchedGame)
   }
 
   useEffect(() => {
-    fetchGameDetails(GameId)
-  }, [GameId])
+      if(gameId){
+        fetchGameDetails(gameId)
+      }
+  }, [gameId])
 
   if (!Game) return (
       <div>No game found</div>
