@@ -35,7 +35,7 @@ export default function GameHistory() {
         <h2>Game History for User: {username} </h2>
 
         <ol id={"gamelog"}>
-        {games.map((g) => <HistoryItem game={g}/>)}
+        {games.map((g) => <HistoryItem key = {g._id} game={g}/>)}
         </ol>
         </>
 

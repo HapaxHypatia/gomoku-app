@@ -18,8 +18,8 @@ export default function Replay(props:replayProps ) {
     const squares=Array.from(Array(boardSize).keys())
 
     const children  = rows.map((r)=>
-            (<tr>{squares.map((sq)=>
-                (<td id={String(r).padStart(2,'0') +String(sq).padStart(2,'0')} height={'25px'} width={'25px'}>
+            (<tr key={r}>{squares.map((sq)=>
+                (<td key={sq} id={String(r).padStart(2,'0') +String(sq).padStart(2,'0')} height={'25px'} width={'25px'}>
                     <img id={"img"+String(r).padStart(2,'0') +String(sq).padStart(2,'0')} alt='' src={cross}  width='25px' height='25px'/></td>))}
             </tr>))
 

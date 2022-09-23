@@ -11,7 +11,7 @@ function Board() {
         <>
         <table id={"board"}>
             <tbody>
-            {rows.map((r:number) => <BoardRow row={r}/>)}
+            {rows.map((r:number) => <BoardRow key={r} row={r}/>)}
             </tbody>
         </table>
 
