@@ -4,7 +4,6 @@ import {Header, Footer, UserProvider } from "./components"
 import {Home, Login, SignUp, Game, GameLog, GameHistory, Win, Draw} from './pages'
 import { Routes, Route, Navigate } from 'react-router-dom'
 
-
 function App() {
   return (
         <UserProvider>

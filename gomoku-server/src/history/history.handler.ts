@@ -58,11 +58,11 @@ historyHandler.get('/:gameId',
 
 //Delete games by userId
 historyHandler.delete(
-  '/deleteHistory',
+  '/deleteHistory/:userId',
   // validateSchema(deleteGameSchema),
   async (req: Request, res: Response) => {
     //delete game entry
-    const userId = getUser(req)
+    const userId = req.params.userId
     const objID = new mongoose.Types.ObjectId(userId)
     await GameModel.deleteMany({ 'gameUser': objID })
     return res.sendStatus(200)

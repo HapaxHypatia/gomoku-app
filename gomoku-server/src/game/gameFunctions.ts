@@ -1,5 +1,6 @@
 import GameModel, {GameDocument} from "./game.model";
 import mongoose from "mongoose";
+import gameModel from "./game.model";
 
 export async function Game(
     gameId: string,
@@ -72,8 +73,7 @@ export async function Game(
     //     return "draw"
     // }
     if (checkWin()) {
-        // @ts-ignore
-        game.set("winner",player)
+        await gameModel.findOneAndUpdate({_id:gameId}, {$set:{winner: player}})
         return "win"
     } else {
         return "continue"

@@ -12,7 +12,6 @@ export default function GameHistory() {
     const fetchGames = async () => {
         if (user){
             const fetchedGames: GameType[] = await get(`/api/history/usergames/${user._id}`)
-            //TODO not working because userid not present on req
             setGames(fetchedGames)
         }
         else{console.log("user id required")}

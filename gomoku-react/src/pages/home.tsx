@@ -4,9 +4,13 @@ import {useAppDispatch} from "../hooks/hooks";
 
 export default function Home() {
     const nav = useNavigate()
-    const [boardSize, setBoardSize] = useState<number>(0)
-    const [length, setLength] = useState<number>(0)
+    const [boardSize, setBoardSize] = useState<number>(15)
+    const [length, setLength] = useState<number>(5)
     const dispatch = useAppDispatch()
+
+    //clear previous state
+    dispatch({type:"resetState"})
+
     function handleSetup(e: FormEvent<HTMLFormElement>){
         e.preventDefault()
         dispatch({

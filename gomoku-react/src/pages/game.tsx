@@ -13,6 +13,7 @@ export default function Game() {
     const dispatch = useAppDispatch()
     const {boardSize, length} = useParams()
     const { user } = useContext(UserContext)
+    let gameId
 
     const navigate = useNavigate()
     const createGame = async ()=> {
@@ -27,6 +28,7 @@ export default function Game() {
                 },
                 userId: user._id
             })
+            gameId=newGame._id
             dispatch({type: "setID", payload: newGame._id})
             dispatch({type: "setBoard", payload: {boardSize: boardSize, length: length}})
         }
@@ -39,20 +41,10 @@ export default function Game() {
     const reset = async ()=>{
         const gameId = gameState.gameID
         await put('/api/game/clear', {gameId:gameId})
-        console.log(gameId)
         dispatch({type:"changePlayer", payload:"black"})
+        window.location.reload();
     }
 
-    function leave(){
-        // if (gameState.winner){
-        //
-        //     saveGame()
-        //     navigate('/gameHistory')
-        // }
-        // else{
-        //     localStorage.removeItem(gameState.gameID!)
-        //     navigate('/')}
-    }
     if (!user) return <Navigate to="/login" replace={true}/>
 
         return (
@@ -61,9 +53,8 @@ export default function Game() {
         <Board/>
         </div>
         <div id="info">Current Player: {gameState.currentPlayer}</div>
-        <button type="reset" id="resetButton" onClick={reset} >Reset Board</button>
+        <button type="reset" id="resetButton" onClick={reset}>Reset Board</button>
         <button type="button" id="restart" onClick={()=>navigate('/')}>Start New Game</button>
-        <button type="button" id="leave" onClick={leave} >Leave Game</button>
         </>
     );
 
