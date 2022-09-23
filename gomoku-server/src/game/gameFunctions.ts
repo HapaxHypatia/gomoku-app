@@ -7,20 +7,17 @@ export async function Game(
     squareId: string,
     squares: { id: string, status: string }[],
     player: string) {
-    console.log("player is "+player)
     //get lineLength from db
     const game = await GameModel.findById(gameId)
     let lineLength:number
     if (game){
         lineLength = game.lineLength
-        console.log("lineLength is "+lineLength)
 }
 
     function checkLine(direction: string) {
 
         const x = Number(squareId.slice(0, 2))
         const y = Number(squareId.slice(2, 4))
-        console.log("Checking "+direction +" from "+squareId)
         let line:number = 0;
         for (let i = 1; i < lineLength+1; i++) {
             const directions: { [key: string]: string } = {
@@ -46,7 +43,6 @@ export async function Game(
                 break;
             }
         }
-        console.log(direction+" : "+line)
         return line;
     }
 
@@ -60,18 +56,16 @@ export async function Game(
     }
 
     function checkDraw() {
-        const freeSpace = squares.findIndex(sq => sq.status === "empty")
-        console.log("first freespace = "+freeSpace)
-        if (!freeSpace) {
+        const freeSpace = squares.filter(sq => sq.status==="empty")
+        console.log("Number of free spaces = "+freeSpace.length)
+        if (freeSpace.length<2) {
             return true
         }
     }
-    //TODO checkdraw always returns draw if user plays more than one game, because it still has teh squares array from the last game
-    // if (checkDraw()) {
-    //     // @ts-ignore
-    //     game.set("winner","draw")
-    //     return "draw"
-    // }
+    if (checkDraw()) {
+        await gameModel.findOneAndUpdate({_id:gameId}, {$set:{winner: "draw"}})
+        return "draw"
+    }
     if (checkWin()) {
         await gameModel.findOneAndUpdate({_id:gameId}, {$set:{winner: player}})
         return "win"
