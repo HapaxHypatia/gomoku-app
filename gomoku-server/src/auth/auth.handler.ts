@@ -8,6 +8,7 @@ import {
   registerSchema,
 } from './auth.schema'
 import { signJwt } from '../util/jwt'
+import UserModel from "./user.model";
 
 const authHandler = express.Router()
 
@@ -71,4 +72,13 @@ authHandler.post(
   }
 )
 
+authHandler.get('/:userId',
+    async (req: Request, res: Response)=>{
+    const userId = req.params.userId
+    const user = await UserModel.findById(userId)
+        if (user){
+            return res.json({username:user.username})
+        }
+    }
+)
 export default authHandler
