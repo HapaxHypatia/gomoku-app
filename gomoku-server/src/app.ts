@@ -16,10 +16,6 @@ app.use('/api/history', historyHandler)
 app.use('/api/game', gameHandler)
 app.use('/api/auth', authHandler)
 
-app.get('/', (req, res) => {
-  res.send("Hello, this is the server")
-})
-
 mongoose.connection.once('connected', ()=> {
   console.log('Connected to MongoDB.')
   app.listen(app.get('port'), () => {

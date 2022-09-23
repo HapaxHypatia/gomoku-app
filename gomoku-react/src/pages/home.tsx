@@ -1,15 +1,26 @@
-import React, {FormEvent, useState} from "react";
+import React, {FormEvent, useContext, useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {useAppDispatch} from "../hooks/hooks";
+import {UserContext} from "../context";
+import {del} from "../utils/http";
 
 export default function Home() {
     const nav = useNavigate()
     const [boardSize, setBoardSize] = useState<number>(15)
     const [length, setLength] = useState<number>(5)
     const dispatch = useAppDispatch()
+    const { user } = useContext(UserContext)
+
 
     //clear previous state
     dispatch({type:"resetState"})
+    async function deleteUnfinishedGames(){
+        await del('api/history/deleteUnfinished/')
+    }
+
+    useEffect(() => {
+        deleteUnfinishedGames()
+        }, [boardSize])
 
     function handleSetup(e: FormEvent<HTMLFormElement>){
         e.preventDefault()

@@ -67,4 +67,15 @@ historyHandler.delete(
   }
 )
 
+//Delete users unfinished games
+historyHandler.delete(
+  '/deleteUnfinished/',
+  // validateSchema(deleteGameSchema),
+  async (req: Request, res: Response) => {
+    //delete game entries
+    await GameModel.deleteMany({'winner': 'none'})
+    return res.sendStatus(200)
+  }
+)
+
 export default historyHandler

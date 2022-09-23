@@ -1,11 +1,9 @@
 import {Board} from "../components";
 import {Navigate, useNavigate, useParams} from "react-router-dom";
-import React, {useContext, useEffect, useState} from "react";
+import React, {useContext, useEffect, } from "react";
 import {UserContext} from "../context";
 import {useAppDispatch, useAppSelector} from "../hooks/hooks";
 import {post, put} from "../utils/http";
-import {User} from "../types";
-
 
 
 export default function Game() {
