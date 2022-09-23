@@ -3,6 +3,8 @@ import validateSchema from '../util/validateSchema'
 import GameModel from '../game/game.model'
 import {deserializeUser} from "../auth/deserializeUser";
 import mongoose from "mongoose";
+import {deleteGameSchema} from "../game/game.schema";
+import gameHandler from "../game/game.handler";
 
 const historyHandler = express.Router()
 //To switch to using deserialize:
@@ -74,6 +76,27 @@ historyHandler.delete(
   async (req: Request, res: Response) => {
     //delete game entries
     await GameModel.deleteMany({'winner': 'none'})
+    return res.sendStatus(200)
+  }
+)
+
+async function deleteGame(id: string, userId: string) {
+  return GameModel.deleteOne({
+    _id: new mongoose.Types.ObjectId(id),
+    userId: new mongoose.Types.ObjectId(userId),
+  })
+}
+
+//Delete game by ID
+historyHandler.delete(
+  '/deleteGame/:gameId/:userId',
+  // validateSchema(deleteGameSchema),
+  async (req: Request, res: Response) => {
+    //delete game entry
+    const GameId = req.params.gameId
+      console.log(typeof GameId)
+    const userId = req.params.userId
+    await deleteGame(GameId, userId)
     return res.sendStatus(200)
   }
 )

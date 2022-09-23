@@ -17,7 +17,7 @@ yarn
  - Password: admin
 
 ## Postman collection
-Link here
+https://www.getpostman.com/collections/3bc8c13ab3f7c9249983
 
 ## To run using deserializeUser
 In both [gameHandler](gomoku-server/src/game/game.handler.ts) and [historyHandler](gomoku-server/src/history/history.handler.ts):

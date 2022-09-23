@@ -6,13 +6,15 @@ import {UserContext} from "../context";
 export default function HistoryItem(game:any) {
     const navigate = useNavigate()
     const G= game.game
-    const gameId = G.gameID
+    const gameId = G._id
+    console.log(typeof gameId)
+
     const { user } = useContext(UserContext)
 
     async function deleteGame(){
         if(user){
             if (window.confirm('Are you sure you wish to delete this game?')){
-                await del(`api/game/${gameId}/${user._id}`)
+                await del(`api/history/deleteGame/${gameId}/${user._id}`)
             }
         }
     }

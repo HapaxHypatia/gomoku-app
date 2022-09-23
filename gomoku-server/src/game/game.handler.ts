@@ -34,12 +34,6 @@ async function createGame(
   return GameModel.create(input)
 }
 
-async function deleteGame(id: string, userId: string) {
-  return GameModel.deleteOne({
-    _id: new mongoose.Types.ObjectId(id),
-    userId: new mongoose.Types.ObjectId(userId),
-  })
-}
 
 //Create new game
 gameHandler.post('/',
@@ -110,17 +104,6 @@ gameHandler.put('/clear',
     }
 )
 
-//Delete game by ID
-gameHandler.delete(
-  '/:gameId/:userId',
-  validateSchema(deleteGameSchema),
-  async (req: Request, res: Response) => {
-    //delete game entry
-    const GameId = req.params.gameId
-    const userId = req.params.userId
-    await deleteGame(GameId, userId)
-    return res.sendStatus(200)
-  }
-)
+
 
 export default gameHandler
