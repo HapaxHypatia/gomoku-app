@@ -28,7 +28,6 @@ export default function GameHistory() {
         fetchUsername()
     }, [])
 
-    console.log("username = "+username)
     if (!user) return <Navigate to="/login" replace={true}/>
     return (
         <>

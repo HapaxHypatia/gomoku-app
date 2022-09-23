@@ -57,7 +57,6 @@ export async function Game(
 
     function checkDraw() {
         const freeSpace = squares.filter(sq => sq.status==="empty")
-        console.log("Number of free spaces = "+freeSpace.length)
         if (freeSpace.length<2) {
             return true
         }

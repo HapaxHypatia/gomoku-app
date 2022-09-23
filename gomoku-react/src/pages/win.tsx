@@ -7,26 +7,11 @@ export default function Win() {
     const game = location.state as any
     const navigate = useNavigate()
     const gameState = useAppSelector(state => state)
-    const dispatch = useAppDispatch()
-    function restart(){
-        dispatch({type:"setState", payload:{
-                gameID: "",
-                date: "",
-                userID: 0,
-                boardSize: 0,
-                length: 0,
-                moves: [],
-                squares: [],
-                currentPlayer: "black",
-                winner: undefined
-            }})
-        navigate('/')
-    }
     return (
         <>
         <h2>Congratulations!</h2>
         <div>{game.winner} wins!</div>
-        <button type="button" id="restart" onClick={restart}>Start New Game</button>
+        <button type="button" id="restart" onClick={()=>navigate('/')}>Start New Game</button>
         </>
     );
 }

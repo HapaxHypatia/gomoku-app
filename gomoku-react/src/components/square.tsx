@@ -65,7 +65,6 @@ export default function Square(props: SquareProps) {
                     userId: user._id,
                     player: player
                 })
-                console.log(result)
                 //switch current player in gameState
                 const prevPlayer = player
                 const newPlayer = player==="black"? "white": "black"
