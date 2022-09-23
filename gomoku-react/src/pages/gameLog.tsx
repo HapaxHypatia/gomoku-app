@@ -10,7 +10,6 @@ export default function GameLog() {
     const game = location.state.game
     const boardSize:number = game.boardSize
     const moves:{square:string, player:string}[] = game.moves
-    console.log(game)
 
     return (
         <div>

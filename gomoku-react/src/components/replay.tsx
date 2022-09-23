@@ -12,7 +12,6 @@ type replayProps = {
 export default function Replay(props:replayProps ) {
     const [count, setCount] = useState(0)
     const {boardSize, moves} = props
-    console.log(moves)
 
     //create table
     const rows=Array.from(Array(boardSize).keys())
@@ -26,20 +25,22 @@ export default function Replay(props:replayProps ) {
 
     function next(){
         //get square by ID
-        const player = moves[count].player
-        const squareID = moves[count].square
-        let img = document.getElementById("img"+squareID)
-        let src
-        if (player=="black"){
-            src=black
+        if (count<moves.length){
+            const player = moves[count].player
+            const squareID = moves[count].square
+            let img = document.getElementById("img"+squareID)
+            let src
+            if (player=="black"){
+                src=black
+            }
+            else{
+                src=white
+            }
+            //change img src to player colour
+            img!.setAttribute("src", src)
+            //set text to count
+            setCount(count+1)
         }
-        else{
-            src=white
-        }
-        //change img src to player colour
-        img!.setAttribute("src", src)
-        //set text to count
-        setCount(count+1)
     }
 
     return (
