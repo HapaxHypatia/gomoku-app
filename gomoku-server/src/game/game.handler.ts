@@ -112,12 +112,12 @@ gameHandler.put('/clear',
 
 //Delete game by ID
 gameHandler.delete(
-  '/:id',
+  '/:gameId/:userId',
   validateSchema(deleteGameSchema),
   async (req: Request, res: Response) => {
     //delete game entry
-    const GameId = req.params.id
-    const userId = getUser(req)
+    const GameId = req.params.gameId
+    const userId = req.params.userId
     await deleteGame(GameId, userId)
     return res.sendStatus(200)
   }

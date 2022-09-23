@@ -1,13 +1,20 @@
-import React from "react";
+import React, {useContext} from "react";
 import {useNavigate} from "react-router-dom";
 import {del} from "../utils/http";
+import {UserContext} from "../context";
 
 export default function HistoryItem(game:any) {
     const navigate = useNavigate()
     const G= game.game
     const gameId = G.gameID
+    const { user } = useContext(UserContext)
+
     async function deleteGame(){
-    await del(`api/game/${gameId}`)
+        if(user){
+            if (window.confirm('Are you sure you wish to delete this game?')){
+                await del(`api/game/${gameId}/${user._id}`)
+            }
+        }
     }
 
     function loadGame(){
@@ -46,7 +53,7 @@ export default function HistoryItem(game:any) {
             </div>
             <div id={"historyButtons"}>
             <button onClick={loadGame}>See Game Log</button>
-                <button>Delete Game</button>
+                <button onClick={deleteGame}>Delete Game</button>
             </div>
 
         </li>
