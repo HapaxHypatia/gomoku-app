@@ -9,18 +9,9 @@ export default function Home() {
     const [boardSize, setBoardSize] = useState<number>(15)
     const [length, setLength] = useState<number>(5)
     const dispatch = useAppDispatch()
-    const { user } = useContext(UserContext)
-
 
     //clear previous state
     dispatch({type:"resetState"})
-    async function deleteUnfinishedGames(){
-        await del('api/history/deleteUnfinished/')
-    }
-
-    useEffect(() => {
-        deleteUnfinishedGames()
-        }, [boardSize])
 
     function handleSetup(e: FormEvent<HTMLFormElement>){
         e.preventDefault()

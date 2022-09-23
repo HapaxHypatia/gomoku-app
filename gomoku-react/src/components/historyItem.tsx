@@ -1,9 +1,14 @@
 import React from "react";
 import {useNavigate} from "react-router-dom";
+import {del} from "../utils/http";
 
 export default function HistoryItem(game:any) {
     const navigate = useNavigate()
     const G= game.game
+    const gameId = G.gameID
+    async function deleteGame(){
+    await del(`api/game/${gameId}`)
+    }
 
     function loadGame(){
         navigate('/gameLog/', {state:{game:G}})
@@ -31,16 +36,19 @@ export default function HistoryItem(game:any) {
 
 
     return (
-        <li onClick={loadGame}>
-            Played at {time} {day} {monthLong} {year}
+        <li  id={"historyItem"}>
+            <div id={"historyDetails"}>
+                Played at {time} {day} {monthLong} {year}
             <br/>
-            Winner: {G.winner}
+            Winner: {G.winner}                 Number of moves: {G.moves.length}
             <br/>
-            Board size: {G.boardSize}
-            <br/>
-            Length: {G.lineLength}
-            <br/>
-            Number of moves: {G.moves.length}
+            Board size: {G.boardSize}     Line length: {G.lineLength}
+            </div>
+            <div id={"historyButtons"}>
+            <button onClick={loadGame}>See Game Log</button>
+                <button>Delete Game</button>
+            </div>
+
         </li>
     );
 }

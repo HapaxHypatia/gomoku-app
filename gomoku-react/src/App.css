@@ -80,13 +80,25 @@ footer {
   margin: 2rem auto;
 }
 
-#gamelog li{
+#historyItem{
+    list-style-type: none;
+}
+#historyDetails{
     background-color: cadetblue;
     color: aliceblue;
     border: 2px solid aliceblue;
     border-radius: 5px;
+    width: 50%;
+    line-height: 20px;
+    text-align: left;
+    padding: 20px;
+    float: left;
 }
 #replay-board{
     background-color: antiquewhite ;
     margin: auto;
 }
+
+/*#historyButtons{*/
+/*    float*/
+/*}*/
