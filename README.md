@@ -1,7 +1,10 @@
 # Gomoku App
 
 ## install dependencies
-yarn
+ - yarn
+ - cd gomoku-server yarn
+ - cd gomoku-react yarn
+
 
 ## start the server
  - cd gomoku-server
