@@ -2,7 +2,8 @@ import {Game} from "./gameFunctions";
 import express, {Request, Response} from "express";
 import {deserializeUser} from "../auth/deserializeUser";
 import validateSchema from "../util/validateSchema";
-import {createGameSchema, deleteGameSchema, updateGameSchema} from "./game.schema";
+import {checkResultSchema, clearMovesSchema,
+    createGameSchema,updateMovesSchema} from "./game.validation";
 import GameModel, {GameDocument} from "./game.model";
 import mongoose, {DocumentDefinition} from "mongoose";
 
@@ -37,7 +38,7 @@ async function createGame(
 
 //Create new game
 gameHandler.post('/',
-  // validateSchema(createGameSchema),
+  validateSchema(createGameSchema),
   async (req: Request, res: Response) => {
   const userId = getUser(req)
   const gameDetails = req.body.game
@@ -49,7 +50,7 @@ gameHandler.post('/',
 
 //Update moves (require gameId)
 gameHandler.put('/update',
-  // validateSchema(updateGameSchema),
+  validateSchema(updateMovesSchema),
   async (req: Request, res: Response) => {
     const square = req.body.square
     const player = req.body.player
@@ -70,7 +71,7 @@ gameHandler.put('/update',
 })
 
 gameHandler.post('/check',
-    // validateSchema(),
+    validateSchema(checkResultSchema),
     async (req: Request, res: Response) => {
         const gameId:string = req.body.gameId
         const squareId:string = req.body.squareId
@@ -84,6 +85,7 @@ gameHandler.post('/check',
 
 //clear moves array
 gameHandler.put('/clear',
+      validateSchema(clearMovesSchema),
       async (req: Request, res: Response) => {
     console.log("clearmoves")
     const gameId = req.body.gameId

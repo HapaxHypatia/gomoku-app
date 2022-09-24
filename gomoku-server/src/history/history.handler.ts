@@ -3,8 +3,7 @@ import validateSchema from '../util/validateSchema'
 import GameModel from '../game/game.model'
 import {deserializeUser} from "../auth/deserializeUser";
 import mongoose from "mongoose";
-import {deleteGameSchema} from "../game/game.schema";
-import gameHandler from "../game/game.handler";
+import {deleteGameSchema, deleteUserHistorySchema, getGameSchema, userHistorySchema} from "./history.validation";
 
 const historyHandler = express.Router()
 //To switch to using deserialize:
@@ -27,6 +26,7 @@ function getUser(req:Request){
 
 //GET games by userId
 historyHandler.get('/usergames/:userId',
+    validateSchema(userHistorySchema),
     async (req: Request, res: Response)=>{
     const userId = req.params.userId
     const objID = new mongoose.Types.ObjectId(userId)
@@ -40,15 +40,11 @@ historyHandler.get('/usergames/:userId',
         lineLength: g.lineLength,
         player: g.gameUser,
         moves: g.moves
-        }
-        )
-        )
-    )
-    }
-)
+        })))})
 
 //get single game by id
 historyHandler.get('/:gameId',
+    validateSchema(getGameSchema),
     async (req: Request, res: Response) => {
     const GameId = req.params.gameId
     const game = await GameModel.findById(GameId).lean()
@@ -59,7 +55,7 @@ historyHandler.get('/:gameId',
 //Delete games by userId
 historyHandler.delete(
   '/deleteHistory/:userId',
-  // validateSchema(deleteGameSchema),
+  validateSchema(deleteUserHistorySchema),
   async (req: Request, res: Response) => {
     //delete game entry
     const userId = req.params.userId
@@ -69,7 +65,7 @@ historyHandler.delete(
   }
 )
 
-//Delete users unfinished games
+//Delete unfinished games
 historyHandler.delete(
   '/deleteUnfinished/',
   // validateSchema(deleteGameSchema),
@@ -90,7 +86,7 @@ async function deleteGame(id: string, userId: string) {
 //Delete game by ID
 historyHandler.delete(
   '/deleteGame/:gameId/:userId',
-  // validateSchema(deleteGameSchema),
+  validateSchema(deleteGameSchema),
   async (req: Request, res: Response) => {
     //delete game entry
     const GameId = req.params.gameId

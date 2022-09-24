@@ -11,8 +11,8 @@ export interface GameDocument extends Document {
 }
 
 const gameSchema = new mongoose.Schema({
-    boardSize: Number,
-    lineLength: Number,
+    boardSize: {type: Number, require: true},
+    lineLength: {type: Number, require: true},
     gameUser: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     moves: [new Schema({
         move: {type: Schema.Types.ObjectId, ref: 'Move'},
