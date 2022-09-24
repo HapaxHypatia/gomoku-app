@@ -7,8 +7,6 @@ export default function HistoryItem(game:any) {
     const navigate = useNavigate()
     const G= game.game
     const gameId = G._id
-    console.log(typeof gameId)
-
     const { user } = useContext(UserContext)
 
     async function deleteGame(){

@@ -90,7 +90,6 @@ historyHandler.delete(
   async (req: Request, res: Response) => {
     //delete game entry
     const GameId = req.params.gameId
-      console.log(typeof GameId)
     const userId = req.params.userId
     await deleteGame(GameId, userId)
     return res.sendStatus(200)

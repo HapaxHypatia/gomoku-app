@@ -24,7 +24,6 @@ function getUser(req:Request){
     else{
          userId = req.body.userId
         }
-    console.log("userId = "+userId)
     return userId
     }
 
@@ -87,7 +86,6 @@ gameHandler.post('/check',
 gameHandler.put('/clear',
       validateSchema(clearMovesSchema),
       async (req: Request, res: Response) => {
-    console.log("clearmoves")
     const gameId = req.body.gameId
           console.log('gameId = '+gameId)
     const newGame = await GameModel.findOneAndUpdate(
