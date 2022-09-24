@@ -57,7 +57,6 @@ export default function Square(props: SquareProps) {
             if (user){
                 await put(`/api/game/update`,
                     {square: id, player: player, userId: user._id, gameId: gameId})
-                //TODO checkDraw is not working because sq component does not have updated squares array yet
                 const result = await post('/api/game/check', {
                     gameId: gameState.gameID,
                     squareId:id,
