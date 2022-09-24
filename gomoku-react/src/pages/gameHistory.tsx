@@ -47,10 +47,11 @@ export default function GameHistory() {
     return (
         <>
         <h2>Game history for user: {username} </h2>
-
+        <div id={'historyListContainer'}>
         <ul id={"gamelog"}>
         {games.map((g) => <HistoryItem key = {g._id} game={g}/>)}
         </ul>
+        </div>
         <button onClick={deleteUserHistory}>Delete Game History</button>
         </>
 

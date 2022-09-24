@@ -47,11 +47,11 @@ export default function HistoryItem(game:any) {
     return (
         <li  id={"historyItem"}>
             <div id={"historyDetails"}>
-                Played at {time} {day} {monthLong} {year}
-            <br/>
-            Winner: {G.winner}                 Number of moves: {G.moves.length}
-            <br/>
-            Board size: {G.boardSize}     Line length: {G.lineLength}
+            <p>Played at {time} {day} {monthLong} {year}</p>
+            <p>Winner: {G.winner}</p>
+            <p>Number of moves: {G.moves.length}</p>
+            <p>Board size: {G.boardSize}</p>
+            <p>Line length: {G.lineLength}</p>
             </div>
             <div id={"historyButtons"}>
             <button onClick={loadGame}>See Game Log</button>
