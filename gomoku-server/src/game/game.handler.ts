@@ -77,7 +77,6 @@ gameHandler.post('/check',
         const squares = req.body.squares
         const player = req.body.player
         const result = await Game(gameId, squareId, squares, player)
-        console.log(result)
         return res.status(200).json(result)
     }
     )
