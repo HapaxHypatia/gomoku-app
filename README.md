@@ -1,19 +1,11 @@
 # Gomoku App
 
-## install dependencies
- - yarn
- - cd gomoku-server yarn
- - cd gomoku-react yarn
-
-
-## start the server
- - cd gomoku-server
- - yarn run dev
-
 ## start the app
- - cd gomoku-react
- - yarn start
- - go to localhost:3000
+At the root directory (you should see docker-compose.yml file)
+ - docker-compose up
+
+## stop the app
+ - docker-compose down
 
 ## Login details for testing
  - Username: admin
@@ -29,8 +21,3 @@ In both [gameHandler](gomoku-server/src/game/game.handler.ts) and [historyHandle
 
 In the postman collection, set the auth on the main folder to "Bearer" and insert a token
 
-### BONUS FEATURES
-
-* A1: The user is able to customise how many stones in a row are needed to win. This allows the user to set up harder or easier games.
-* A2: nil 
-* A3: NA
