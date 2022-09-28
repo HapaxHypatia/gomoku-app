@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import { UserContext } from "../context";
 import { useContext } from "react";
-import { Navigate } from "react-router-dom"
+import {Navigate, useNavigate} from "react-router-dom"
 import {HistoryItem} from "../components";
 import {GameType, User} from "../types";
 import {del, get, post} from "../utils/http";
@@ -11,6 +11,7 @@ export default function GameHistory() {
     const { user } = useContext(UserContext)
     const [games, setGames] = useState<GameType[]>([])
     const [username, setUsername] = useState('username')
+    const nav = useNavigate()
 
     async function deleteUnfinishedGames(){
         await del(`${API_HOST}/api/history/deleteUnfinished/`)
@@ -19,6 +20,7 @@ export default function GameHistory() {
         if (user){
             if (window.confirm('Are you sure you wish to delete all your history?')){
             await del(`${API_HOST}api/history/deleteHistory/${user._id}`)}
+            nav('/gameHistory')
         }
 
     }

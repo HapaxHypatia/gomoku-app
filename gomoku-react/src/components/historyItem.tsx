@@ -9,11 +9,13 @@ export default function HistoryItem(game:any) {
     const G= game.game
     const gameId = G._id
     const { user } = useContext(UserContext)
+    const nav = useNavigate()
 
     async function deleteGame(){
         if(user){
             if (window.confirm('Are you sure you wish to delete this game?')){
                 await del(`${API_HOST}/api/history/deleteGame/${gameId}/${user._id}`)
+                nav('/gameHistory')
             }
         }
     }
