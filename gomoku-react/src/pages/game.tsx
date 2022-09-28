@@ -42,7 +42,6 @@ export default function Game() {
         const gameId = gameState.gameID
         await put(`${API_HOST}/api/game/clear`, {gameId:gameId})
         dispatch({type:"changePlayer", payload:"black"})
-        window.location.reload();
         navigate(`/game/${boardSize}/${length}`)
     }
 
