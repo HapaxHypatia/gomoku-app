@@ -10,7 +10,8 @@ function App() {
     window.addEventListener("beforeunload", (ev) =>
     {
         ev.preventDefault();
-    logout()
+        logout()
+        sessionStorage.clear()
 });
   return (
         <UserProvider>
