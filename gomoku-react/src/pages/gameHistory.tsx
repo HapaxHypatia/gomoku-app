@@ -5,6 +5,7 @@ import { Navigate } from "react-router-dom"
 import {HistoryItem} from "../components";
 import {GameType, User} from "../types";
 import {del, get, post} from "../utils/http";
+import {API_HOST} from "../utils/constants";
 
 export default function GameHistory() {
     const { user } = useContext(UserContext)
@@ -26,14 +27,14 @@ export default function GameHistory() {
         }, [])
     const fetchUsername = async () =>{
         if (user){
-            const name: {username:string} = await get(`/api/auth/${user._id}`)
+            const name: {username:string} = await get(`${API_HOST}api/auth/${user._id}`)
             setUsername(name.username)
         }
     }
 
     const fetchGames = async () => {
         if (user){
-            const fetchedGames: GameType[] = await get(`/api/history/usergames/${user._id}`)
+            const fetchedGames: GameType[] = await get(`${API_HOST}/api/history/usergames/${user._id}`)
             setGames(fetchedGames)
         }
         else{console.log("user id required")}
