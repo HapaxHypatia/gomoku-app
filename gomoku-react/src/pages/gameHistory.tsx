@@ -28,7 +28,6 @@ export default function GameHistory() {
     useEffect(() => {
         deleteUnfinishedGames()
         }, [])
-
     const fetchUsername = async () =>{
         if (user){
             const name: {username:string} = await get(`${API_HOST}/api/auth/${user._id}`)
@@ -39,7 +38,7 @@ export default function GameHistory() {
 
     const fetchGames = async () => {
         if (user){
-            const fetchedGames: GameType[] = await get(`${API_HOST}/api/history/usergames`)
+            const fetchedGames: GameType[] = await get(`${API_HOST}/api/history/usergames/${user._id}`)
             //TODO try removing userId from params to test deserialize user
             setGames(fetchedGames)
         }
