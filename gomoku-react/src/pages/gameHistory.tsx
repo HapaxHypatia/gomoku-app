@@ -13,12 +13,12 @@ export default function GameHistory() {
     const [username, setUsername] = useState('username')
 
     async function deleteUnfinishedGames(){
-        await del('api/history/deleteUnfinished/')
+        await del(`${API_HOST}/api/history/deleteUnfinished/`)
     }
     async function deleteUserHistory(){
         if (user){
             if (window.confirm('Are you sure you wish to delete all your history?')){
-            await del(`api/history/deleteHistory/${user._id}`)}
+            await del(`${API_HOST}api/history/deleteHistory/${user._id}`)}
         }
 
     }
