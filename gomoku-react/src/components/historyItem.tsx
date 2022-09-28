@@ -15,6 +15,7 @@ export default function HistoryItem(game:any) {
         if(user){
             if (window.confirm('Are you sure you wish to delete this game?')){
                 await del(`${API_HOST}/api/history/deleteGame/${gameId}/${user._id}`)
+                //TODO try removing userId from params to test deserialize user
                 nav('/gameHistory')
             }
         }
