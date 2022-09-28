@@ -4,6 +4,8 @@ import React, {useContext, useEffect, } from "react";
 import {UserContext} from "../context";
 import {useAppDispatch, useAppSelector} from "../hooks/hooks";
 import {post, put} from "../utils/http";
+import {API_HOST} from "../utils/constants";
+
 
 
 export default function Game() {
@@ -17,7 +19,7 @@ export default function Game() {
     const createGame = async ()=> {
         //create db entry and return gameID
         if (user){
-        const newGame: any = await post('/api/game', {
+        const newGame: any = await post(`${API_HOST}/api/game`, {
                 game:{
                     boardSize: Number(boardSize),
                     lineLength: Number(length),
@@ -38,7 +40,7 @@ export default function Game() {
 
     const reset = async ()=>{
         const gameId = gameState.gameID
-        await put('/api/game/clear', {gameId:gameId})
+        await put(`${API_HOST}/api/game/clear`, {gameId:gameId})
         dispatch({type:"changePlayer", payload:"black"})
         window.location.reload();
     }

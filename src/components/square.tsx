@@ -7,6 +7,7 @@ import {useNavigate} from "react-router-dom";
 import {post, put} from "../utils/http";
 import userContext from "../context/UserContext";
 import {UserContext} from "../context";
+import {API_HOST} from "../utils/constants";
 
 type SquareProps = {
     id: string
@@ -55,9 +56,9 @@ export default function Square(props: SquareProps) {
 
             //    DB calls
             if (user){
-                await put(`/api/game/update`,
+                await put(`${API_HOST}/api/game/update`,
                     {square: id, player: player, userId: user._id, gameId: gameId})
-                const result = await post('/api/game/check', {
+                const result = await post(`${API_HOST}/api/game/check`, {
                     gameId: gameState.gameID,
                     squareId:id,
                     squares: gameState.squares,
