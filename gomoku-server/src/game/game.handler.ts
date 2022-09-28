@@ -13,8 +13,8 @@ const gameHandler = express.Router()
 // - uncomment middleware
 // - change authMethod to "deserialize"
 
-// gameHandler.use(deserializeUser)
-const authMethod = "local storage"
+gameHandler.use(deserializeUser)
+const authMethod = "deserialize"
 
 function getUser(req:Request){
     let userId

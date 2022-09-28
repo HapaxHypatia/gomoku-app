@@ -6,10 +6,10 @@ import { Routes, Route, Navigate } from 'react-router-dom'
 import {UserContext} from "./context";
 
 function App() {
+    const { user, logout } = useContext(UserContext)
     window.addEventListener("beforeunload", (ev) =>
     {
-    ev.preventDefault();
-    const { user, logout } = useContext(UserContext)
+        ev.preventDefault();
     logout()
 });
   return (
