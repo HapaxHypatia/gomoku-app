@@ -6,13 +6,13 @@ import { Routes, Route, Navigate } from 'react-router-dom'
 import {UserContext} from "./context";
 
 function App() {
-    const { logout } = useContext(UserContext)
-    window.addEventListener("beforeunload", (ev) =>
-    {
-        ev.preventDefault();
-        logout()
-        sessionStorage.clear()
-});
+//     const { logout } = useContext(UserContext)
+//     window.addEventListener("beforeunload", (ev) =>
+//     {
+//         ev.preventDefault();
+//         logout()
+//         sessionStorage.clear()
+// });
   return (
         <UserProvider>
                 <div className="App">
