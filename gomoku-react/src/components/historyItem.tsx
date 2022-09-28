@@ -2,6 +2,7 @@ import React, {useContext} from "react";
 import {useNavigate} from "react-router-dom";
 import {del} from "../utils/http";
 import {UserContext} from "../context";
+import {API_HOST} from "../utils/constants";
 
 export default function HistoryItem(game:any) {
     const navigate = useNavigate()
@@ -12,7 +13,7 @@ export default function HistoryItem(game:any) {
     async function deleteGame(){
         if(user){
             if (window.confirm('Are you sure you wish to delete this game?')){
-                await del(`api/history/deleteGame/${gameId}/${user._id}`)
+                await del(`${API_HOST}/api/history/deleteGame/${gameId}/${user._id}`)
             }
         }
     }
