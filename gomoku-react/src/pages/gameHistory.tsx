@@ -19,7 +19,7 @@ export default function GameHistory() {
     async function deleteUserHistory(){
         if (user){
             if (window.confirm('Are you sure you wish to delete all your history?')){
-            await del(`${API_HOST}api/history/deleteHistory/${user._id}`)}
+            await del(`${API_HOST}/api/history/deleteHistory/${user._id}`)}
             //TODO try removing userId from params to test deserialize user
             nav('/gameHistory')
         }
@@ -30,7 +30,7 @@ export default function GameHistory() {
         }, [])
     const fetchUsername = async () =>{
         if (user){
-            const name: {username:string} = await get(`${API_HOST}api/auth/${user._id}`)
+            const name: {username:string} = await get(`${API_HOST}/api/auth/${user._id}`)
             //TODO try removing userId from params to test deserialize user
             setUsername(name.username)
         }
