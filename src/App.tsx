@@ -5,6 +5,11 @@ import {Home, Login, SignUp, Game, GameLog, GameHistory, Win, Draw} from './page
 import { Routes, Route, Navigate } from 'react-router-dom'
 
 function App() {
+    window.addEventListener("beforeunload", (ev) =>
+{
+    ev.preventDefault();
+    return ev.returnValue = 'Are you sure you want to close?';
+});
   return (
         <UserProvider>
                 <div className="App">
