@@ -28,7 +28,8 @@ function getUser(req:Request){
 historyHandler.get('/usergames/:userId',
     validateSchema(userHistorySchema),
     async (req: Request, res: Response)=>{
-    const userId = req.params.userId
+    // const userId = req.params.userId
+    const userId = req.userId
     const objID = new mongoose.Types.ObjectId(userId)
     const gameHistory = await GameModel.find({ "gameUser": objID, 'moves.1':{$exists:true}});
     return res.status(200).send(
