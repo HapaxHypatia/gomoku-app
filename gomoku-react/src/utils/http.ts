@@ -28,6 +28,7 @@ export async function get<Res>(path: string): Promise<Res> {
 export async function put<Req, Res>(path: string, body: Req): Promise<Res> {
   return await http<Res>(
     new Request(path, {
+      mode: 'cors', // defaults to same-origin
       headers: {
         ...(token && { Authorization: `Bearer ${token}` }),
         'Content-Type': 'application/json',
@@ -55,6 +56,7 @@ export async function post<Req, Res>(path: string, body: Req): Promise<Res> {
 export async function del(path: string): Promise<undefined | null> {
   return await http<undefined | null>(
     new Request(path, {
+      mode: 'cors', // defaults to same-origin
       headers: {
         ...(token && { Authorization: `Bearer ${token}` }),
         'Content-Type': 'application/json'
