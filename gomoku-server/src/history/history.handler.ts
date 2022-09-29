@@ -26,7 +26,7 @@ function getUser(req:Request){
 
 //GET games by userId
 historyHandler.get('/usergames',
-    validateSchema(userHistorySchema),
+    // validateSchema(userHistorySchema),
     async (req: Request, res: Response)=>{
     // const userId = req.params.userId
     const userId = req.userId
