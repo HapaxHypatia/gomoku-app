@@ -3,7 +3,7 @@ import validateSchema from '../util/validateSchema'
 import GameModel from '../game/game.model'
 import {deserializeUser} from "../auth/deserializeUser";
 import mongoose from "mongoose";
-import {deleteGameSchema, deleteUserHistorySchema, getGameSchema, userHistorySchema} from "./history.validation";
+import {deleteGameSchema, getGameSchema} from "./history.validation";
 
 const historyHandler = express.Router()
 //To switch to using deserialize:
@@ -26,7 +26,6 @@ function getUser(req:Request){
 
 //GET games by userId
 historyHandler.get('/usergames',
-    // validateSchema(userHistorySchema),
     async (req: Request, res: Response)=>{
     // const userId = req.params.userId
     const userId = req.userId
@@ -56,7 +55,6 @@ historyHandler.get('/:gameId',
 //Delete games by userId
 historyHandler.delete(
   '/deleteHistory/:userId',
-  validateSchema(deleteUserHistorySchema),
   async (req: Request, res: Response) => {
     //delete game entry
     const userId = req.params.userId

@@ -72,9 +72,9 @@ authHandler.post(
   }
 )
 
-authHandler.get('/:userId',
+authHandler.get('/',
     async (req: Request, res: Response)=>{
-    const userId = req.params.userId
+    const userId = req.userId
     const user = await UserModel.findById(userId)
         if (user){
             return res.json({username:user.username})
