@@ -21,6 +21,7 @@ export default function Square(props: SquareProps) {
     const [src, setSrc] = useState(cross)
     const navigate = useNavigate()
     const { user } = useContext(UserContext)
+    const [fetching, setFetching] = useState(false)
 
     useEffect(()=>{
         //Create or update square in state
@@ -56,15 +57,22 @@ export default function Square(props: SquareProps) {
 
             //    DB calls
             if (user){
+                setFetching(true)
                 await put(`${API_HOST}/api/game/update`,
                     {square: id, player: player, userId: user._id, gameId: gameId})
-                const result = await post(`${API_HOST}/api/game/check`, {
+                let result
+                await post(`${API_HOST}/api/game/check`, {
                     gameId: gameState.gameID,
                     squareId:id,
                     squares: gameState.squares,
                     userId: user._id,
                     player: player
                 })
+                .then(response=>{
+                    result = Response
+                    setFetching(false)
+                }
+                    )
                 //TODO add loading pop up while waiting for server response
                 //switch current player in gameState
                 const prevPlayer = player
