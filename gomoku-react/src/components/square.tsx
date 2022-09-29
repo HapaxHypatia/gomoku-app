@@ -58,18 +58,14 @@ export default function Square(props: SquareProps) {
             if (user){
                 await put(`${API_HOST}/api/game/update`,
                     {square: id, player: player, userId: user._id, gameId: gameId})
-                let result
-                await post(`${API_HOST}/api/game/check`, {
+                const result = await post(`${API_HOST}/api/game/check`, {
                     gameId: gameState.gameID,
                     squareId:id,
                     squares: gameState.squares,
                     userId: user._id,
                     player: player
                 })
-                .then(response=>{
-                    result = Response
-                }
-                    )
+
                 //TODO add loading pop up while waiting for server response
                 //switch current player in gameState
                 const prevPlayer = player
