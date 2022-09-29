@@ -59,6 +59,7 @@ export default function Square(props: SquareProps) {
             //    DB calls
             if (user){
                 setFetching(true)
+                console.log("fetching in if statement  = "+fetching)
                 await put(`${API_HOST}/api/game/update`,
                     {square: id, player: player, userId: user._id, gameId: gameId})
                 let result
