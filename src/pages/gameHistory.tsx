@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import { UserContext } from "../context";
 import { useContext } from "react";
-import { Navigate } from "react-router-dom"
+import {Navigate, useNavigate} from "react-router-dom"
 import {HistoryItem} from "../components";
 import {GameType, User} from "../types";
 import {del, get, post} from "../utils/http";
@@ -11,6 +11,7 @@ export default function GameHistory() {
     const { user } = useContext(UserContext)
     const [games, setGames] = useState<GameType[]>([])
     const [username, setUsername] = useState('username')
+    const nav = useNavigate()
 
     async function deleteUnfinishedGames(){
         await del(`${API_HOST}/api/history/deleteUnfinished/`)
@@ -18,23 +19,28 @@ export default function GameHistory() {
     async function deleteUserHistory(){
         if (user){
             if (window.confirm('Are you sure you wish to delete all your history?')){
-            await del(`${API_HOST}api/history/deleteHistory/${user._id}`)}
+            await del(`${API_HOST}/api/history/deleteHistory/${user._id}`)}
+            //TODO try removing userId from params to test deserialize user
+            nav('/gameHistory')
         }
 
     }
     useEffect(() => {
         deleteUnfinishedGames()
         }, [])
+
     const fetchUsername = async () =>{
         if (user){
-            const name: {username:string} = await get(`${API_HOST}api/auth/${user._id}`)
+            const name: {username:string} = await get(`${API_HOST}/api/auth/${user._id}`)
+            //TODO try removing userId from params to test deserialize user
             setUsername(name.username)
         }
     }
 
     const fetchGames = async () => {
         if (user){
-            const fetchedGames: GameType[] = await get(`${API_HOST}/api/history/usergames/${user._id}`)
+            const fetchedGames: GameType[] = await get(`${API_HOST}/api/history/usergames`)
+            //TODO try removing userId from params to test deserialize user
             setGames(fetchedGames)
         }
         else{console.log("user id required")}

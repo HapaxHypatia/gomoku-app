@@ -1,15 +1,18 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import './App.css';
 import {Header, Footer, UserProvider } from "./components"
 import {Home, Login, SignUp, Game, GameLog, GameHistory, Win, Draw} from './pages'
 import { Routes, Route, Navigate } from 'react-router-dom'
+import {UserContext} from "./context";
 
 function App() {
-    window.addEventListener("beforeunload", (ev) =>
-{
-    ev.preventDefault();
-    return ev.returnValue = 'Are you sure you want to close?';
-});
+//     const { logout } = useContext(UserContext)
+//     window.addEventListener("beforeunload", (ev) =>
+//     {
+//         ev.preventDefault();
+//         logout()
+//         sessionStorage.clear()
+// });
   return (
         <UserProvider>
                 <div className="App">
