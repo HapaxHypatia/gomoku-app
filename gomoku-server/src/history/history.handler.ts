@@ -4,6 +4,8 @@ import GameModel from '../game/game.model'
 import {deserializeUser} from "../auth/deserializeUser";
 import mongoose from "mongoose";
 import {deleteGameSchema, getGameSchema} from "./history.validation";
+import UserModel from "../auth/user.model";
+import authHandler from "../auth/auth.handler";
 
 const historyHandler = express.Router()
 //To switch to using deserialize:
@@ -23,6 +25,17 @@ function getUser(req:Request){
         }
     return userId
     }
+
+historyHandler.get(
+    '/getUsername',
+    async (req: Request, res: Response)=>{
+    const userId = req.userId
+    const user = await UserModel.findById(userId, {username:1})
+        if (user){
+            return res.json({username:user.username})
+        }
+    }
+)
 
 //GET games by userId
 historyHandler.get('/usergames',

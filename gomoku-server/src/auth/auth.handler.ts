@@ -12,6 +12,7 @@ import UserModel from "./user.model";
 
 const authHandler = express.Router()
 
+
 authHandler.post(
   '/register',
   validateSchema(registerSchema),
@@ -72,13 +73,5 @@ authHandler.post(
   }
 )
 
-authHandler.get('/',
-    async (req: Request, res: Response)=>{
-    const userId = req.userId
-    const user = await UserModel.findById(userId)
-        if (user){
-            return res.json({username:user.username})
-        }
-    }
-)
+
 export default authHandler

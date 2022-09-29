@@ -31,7 +31,7 @@ export default function GameHistory() {
 
     const fetchUsername = async () =>{
         if (user){
-            const name: {username:string} = await get(`${API_HOST}/api/auth`)
+            const name: {username:string} = await get(`${API_HOST}/api/history/getUsername`)
             //TODO try removing userId from params to test deserialize user
             setUsername(name.username)
         }
