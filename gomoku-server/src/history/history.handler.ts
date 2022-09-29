@@ -54,10 +54,9 @@ historyHandler.get('/:gameId',
 
 //Delete games by userId
 historyHandler.delete(
-  '/deleteHistory/:userId',
+  '/deleteHistory/',
   async (req: Request, res: Response) => {
-    //delete game entry
-    const userId = req.params.userId
+    const userId = req.userId
     const objID = new mongoose.Types.ObjectId(userId)
     await GameModel.deleteMany({ 'gameUser': objID })
     return res.sendStatus(200)
@@ -84,12 +83,12 @@ async function deleteGame(id: string, userId: string) {
 
 //Delete game by ID
 historyHandler.delete(
-  '/deleteGame/:gameId/:userId',
+  '/deleteGame/:gameId/',
   validateSchema(deleteGameSchema),
   async (req: Request, res: Response) => {
     //delete game entry
     const GameId = req.params.gameId
-    const userId = req.params.userId
+    const userId = req.userId
     await deleteGame(GameId, userId)
     return res.sendStatus(200)
   }
