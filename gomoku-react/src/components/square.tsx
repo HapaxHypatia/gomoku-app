@@ -49,44 +49,49 @@ export default function Square(props: SquareProps) {
     }, [status])
 
     const placeStone = async ()=>{
-        const player =  gameState.currentPlayer
-        const gameId = gameState.gameID
-        if (status === "empty"){
-            // Change square status to current player
-            setStatus(player)
+        if (fetching===false){
+            const player =  gameState.currentPlayer
+            const gameId = gameState.gameID
+            if (status === "empty"){
+                // Change square status to current player
+                setStatus(player)
 
-            //    DB calls
-            if (user){
-                setFetching(true)
-                await put(`${API_HOST}/api/game/update`,
-                    {square: id, player: player, userId: user._id, gameId: gameId})
-                let result
-                await post(`${API_HOST}/api/game/check`, {
-                    gameId: gameState.gameID,
-                    squareId:id,
-                    squares: gameState.squares,
-                    userId: user._id,
-                    player: player
-                })
-                .then(response=>{
-                    result = Response
-                    setFetching(false)
-                }
-                    )
-                //TODO add loading pop up while waiting for server response
-                //switch current player in gameState
-                const prevPlayer = player
-                const newPlayer = player==="black"? "white": "black"
-                dispatch({type: 'changePlayer',payload: newPlayer})
-                if (result ==="win"){
-                    //    navigate to win page
-                    navigate('/win', {state: {winner: prevPlayer}})
-                }
-                if (result==="draw"){
-                    navigate('/draw')
-                }
+                //    DB calls
+                if (user){
+                    setFetching(true)
+                    await put(`${API_HOST}/api/game/update`,
+                        {square: id, player: player, userId: user._id, gameId: gameId})
+                    let result
+                    await post(`${API_HOST}/api/game/check`, {
+                        gameId: gameState.gameID,
+                        squareId:id,
+                        squares: gameState.squares,
+                        userId: user._id,
+                        player: player
+                    })
+                        .then(response=>{
+                                result = Response
+                                setFetching(false)
+                            }
+                        )
+                    //TODO add loading pop up while waiting for server response
+                    //switch current player in gameState
+                    const prevPlayer = player
+                    const newPlayer = player==="black"? "white": "black"
+                    dispatch({type: 'changePlayer',payload: newPlayer})
+                    if (result ==="win"){
+                        //    navigate to win page
+                        navigate('/win', {state: {winner: prevPlayer}})
+                    }
+                    if (result==="draw"){
+                        navigate('/draw')
+                    }
 
+                }
             }
+        }
+        else{
+            alert("loading")
         }
     }
 
